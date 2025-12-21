@@ -147,5 +147,6 @@ When starting any task, read in this order:
 1. This file (CLAUDE.md)
 2. docs/PLANNING.md (architecture context)
 3. docs/TASK.md (current status)
-4. Relevant INITIAL or PRP file
-5. docs/DECISIONS.md (if architecture questions arise)
+4. docs/WORKFLOW.md (handoff process)
+5. Relevant INITIAL or PRP file
+6. docs/DECISIONS.md (if architecture questions arise)

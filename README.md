@@ -43,13 +43,20 @@ npm run build
 ## Project Structure
 
 ```
+├── .claude/
+│   └── commands/          # Claude Code slash commands
+│       ├── generate-prp.md
+│       ├── execute-prp.md
+│       └── status.md
 ├── CLAUDE.md              # AI assistant instructions
+├── PROJECT_INSTRUCTIONS.md # Claude Project settings (copy to project)
 ├── docs/
 │   ├── PLANNING.md        # Architecture overview
 │   ├── TASK.md            # Current work status
-│   └── DECISIONS.md       # Architectural decisions
-├── INITIAL/               # Feature specifications
-├── PRPs/                  # Implementation plans
+│   ├── DECISIONS.md       # Architectural decisions
+│   └── WORKFLOW.md        # Claude.ai ↔ Claude Code handoff guide
+├── INITIAL/               # Feature specifications (initial-##-name.md)
+├── PRPs/                  # Implementation plans (prp-##-name.md)
 ├── reference/             # POC code and examples
 └── src/                   # Application source
 ```
@@ -58,13 +65,28 @@ npm run build
 
 This project uses a context engineering approach with Claude AI:
 
-1. **Plan** (Claude.ai) - Define features in `INITIAL/` specs
-2. **Generate PRP** (Claude Code) - Create implementation plan
-3. **Review** (Claude.ai) - Refine approach if needed
-4. **Execute** (Claude Code) - Implement the feature
-5. **Update** - Keep docs in sync
+| Step | Where | What |
+|------|-------|------|
+| 1. Plan | Claude.ai | Define features, create `INITIAL/initial-##-name.md` specs |
+| 2. Generate | Claude Code | `/generate-prp INITIAL/initial-##-name.md` |
+| 3. Review | Claude.ai | Review PRP, refine if needed (optional) |
+| 4. Execute | Claude Code | `/execute-prp PRPs/prp-##-name.md` |
+| 5. Sync | Both | Update docs, commit changes |
 
-See `docs/` for detailed documentation.
+**See `docs/WORKFLOW.md` for the complete handoff guide.**
+
+### Quick Start Commands (Claude Code)
+
+```bash
+# Check project status
+/status
+
+# Generate implementation plan
+/generate-prp INITIAL/initial-01-project-foundation.md
+
+# Execute implementation plan
+/execute-prp PRPs/prp-01-project-foundation.md
+```
 
 ## License
 
