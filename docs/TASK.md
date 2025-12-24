@@ -3,9 +3,25 @@
 ## Current Sprint: Core Interactivity
 
 ### Active Task
-**None** - Node selection complete, beginning Phase 2 interactivity!
+**None** - Node dragging complete!
 
 ### Completed Tasks
+
+#### PRP-06: Node Dragging
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-06-node-dragging.md`
+- PRP: `PRPs/prp-06-node-dragging.md`
+- Completed: 2024-12-24
+
+**What was done:**
+- Added updateNodePosition, setDraggingNode, clearDraggingNode to graphStore
+- Created useDrag hook for camera-perpendicular plane dragging
+- Created collision utility with MIN_NODE_DISTANCE = 2.0
+- Updated Node3D with drag handling, collision detection, and visual feedback
+- Red color when in collision state, snap-back on invalid release
+- OrbitControls disabled during drag (SceneControls wrapper)
+- Updated ControlsPanel with drag hint
+- Edges automatically follow dragged nodes via store subscription
 
 #### PRP-05: Node Selection
 - Status: COMPLETE
@@ -93,10 +109,9 @@
 ## Task Queue
 
 ### Up Next
-1. Drag to reposition nodes
+1. Import/export JSON
 
 ### Backlog
-- Import/export JSON
 - Node palette and editor
 - Post-processing effects (bloom)
 - AWS icon library
@@ -105,6 +120,28 @@
 ---
 
 ## Session Notes
+
+### Session 6 - Node Dragging
+**Date:** 2024-12-24
+
+**Accomplished:**
+- Generated and executed PRP-06 (node dragging)
+- Created useDrag hook for camera-perpendicular plane calculations
+- Created collision.js utility with MIN_NODE_DISTANCE = 2.0
+- Implemented select-then-drag pattern (must click to select first)
+- Collision detection with red visual feedback
+- Snap-back to original position on invalid release
+- OrbitControls disabled during node drag
+- Edges follow dragged nodes in real-time
+
+**Decisions Made:**
+- Camera-perpendicular drag plane for intuitive feel (DECISION-012)
+- 2.0 unit minimum distance between node centers
+
+**Next Session:**
+- Import/export JSON
+
+---
 
 ### Session 5 - Node Selection
 **Date:** 2024-12-23

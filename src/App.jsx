@@ -7,6 +7,12 @@ import EdgeGroup from './components/canvas/EdgeGroup';
 import HudOverlay from './components/hud/HudOverlay';
 import { useGraphStore } from './stores/graphStore';
 
+// Wrapper to access store inside Canvas (R3F context)
+const SceneControls = () => {
+  const draggingNodeId = useGraphStore((s) => s.draggingNodeId);
+  return <OrbitControls enabled={!draggingNodeId} />;
+};
+
 function App() {
   const clearSelection = useGraphStore((s) => s.clearSelection);
 
@@ -43,7 +49,7 @@ function App() {
           fadeStrength={1}
           side={DoubleSide}
         />
-        <OrbitControls />
+        <SceneControls />
       </Canvas>
 
       <HudOverlay />

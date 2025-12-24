@@ -305,6 +305,35 @@ const { selectedNodeId, selectNode } = useGraphStore();
 
 ---
 
+## [DECISION-012] Camera-Perpendicular Drag Plane
+
+**Date:** 2024-12-24
+**Status:** Accepted
+
+**Context:**
+When implementing node dragging in 3D space, we needed to decide how to translate 2D mouse movement to 3D position changes. The challenge is making drag feel intuitive regardless of camera angle.
+
+**Decision:**
+Use a drag plane perpendicular to the camera's view direction, passing through the node's position at drag start. This means:
+- Moving mouse left/right moves the node left/right on screen
+- Moving mouse up/down moves the node up/down on screen
+- The plane recalculates for each drag start based on current camera position
+
+Implementation uses Three.js `Plane.setFromNormalAndCoplanarPoint()` with the camera's forward vector as the normal.
+
+**Consequences:**
+- Drag feels intuitive like 2D dragging, even in 3D space
+- Works correctly at any camera angle and zoom level
+- Node moves in world space, not screen space (better for architecture diagrams)
+- Slightly more complex than fixed XZ or XY plane dragging
+
+**Alternatives Considered:**
+- Fixed XZ plane (ground plane): Unintuitive when camera is tilted
+- Fixed XY plane (vertical): Only works for front-facing views
+- Screen-space translation: Would require inverse projection math, harder to understand
+
+---
+
 ## Template for New Decisions
 
 ```

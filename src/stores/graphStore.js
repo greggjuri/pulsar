@@ -5,7 +5,18 @@ export const useGraphStore = create((set) => ({
   nodes: testNodes,
   edges: testEdges,
   selectedNodeId: null,
+  draggingNodeId: null,
 
   selectNode: (id) => set({ selectedNodeId: id }),
   clearSelection: () => set({ selectedNodeId: null }),
+
+  // Drag actions
+  setDraggingNode: (id) => set({ draggingNodeId: id }),
+  clearDraggingNode: () => set({ draggingNodeId: null }),
+
+  updateNodePosition: (id, position) => set((state) => ({
+    nodes: state.nodes.map((node) =>
+      node.id === id ? { ...node, position } : node
+    ),
+  })),
 }));

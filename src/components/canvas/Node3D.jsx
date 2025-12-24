@@ -1,8 +1,21 @@
 import { useRef, useState, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { BackSide } from 'three';
+import useDrag from '../../hooks/useDrag';
+import { checkCollision } from '../../utils/collision';
 
-const Node3D = ({ id, position, color, index = 0, isSelected = false, onSelect }) => {
+const Node3D = ({
+  id,
+  position,
+  color,
+  index = 0,
+  isSelected = false,
+  onSelect,
+  onDragStart,
+  onDrag,
+  onDragEnd,
+  allNodes = [],
+}) => {
   const groupRef = useRef();
   const orbit1Ref = useRef();
   const orbit2Ref = useRef();
@@ -10,10 +23,17 @@ const Node3D = ({ id, position, color, index = 0, isSelected = false, onSelect }
   const marker2Ref = useRef();
   const highlightRef = useRef();
   const pointerDownPos = useRef(null);
+  const originalPositionRef = useRef(null);
 
   // Scale pulse animation state
-  const [pulseScale, setPulseScale] = useState(1);
   const pulseRef = useRef({ active: false, scale: 1 });
+
+  // Drag state
+  const [isDragging, setIsDragging] = useState(false);
+  const [hasCollision, setHasCollision] = useState(false);
+
+  // Drag hook
+  const { startDrag, updateDrag } = useDrag();
 
   // Trigger scale pulse when selected
   useEffect(() => {
@@ -22,8 +42,33 @@ const Node3D = ({ id, position, color, index = 0, isSelected = false, onSelect }
     }
   }, [isSelected]);
 
+  // Update cursor based on state
+  useEffect(() => {
+    if (isDragging) {
+      document.body.style.cursor = 'grabbing';
+    } else if (isSelected) {
+      document.body.style.cursor = 'grab';
+    }
+
+    return () => {
+      if (isDragging || isSelected) {
+        document.body.style.cursor = 'default';
+      }
+    };
+  }, [isDragging, isSelected]);
+
   useFrame((state, delta) => {
     const time = state.clock.elapsedTime;
+
+    // Handle drag updates in animation frame for smooth movement
+    if (isDragging) {
+      const newPos = updateDrag();
+      if (newPos) {
+        const collision = checkCollision(id, newPos, allNodes);
+        setHasCollision(collision);
+        onDrag?.(newPos);
+      }
+    }
 
     // Orbit 1 - ring sweeps front-to-back
     if (orbit1Ref.current) {
@@ -66,23 +111,66 @@ const Node3D = ({ id, position, color, index = 0, isSelected = false, onSelect }
     }
   });
 
-  // Click vs drag detection
   const handlePointerDown = (e) => {
     pointerDownPos.current = { x: e.clientX, y: e.clientY };
+
+    // Only start drag for already selected nodes
+    if (isSelected) {
+      originalPositionRef.current = [...position];
+      startDrag(position);
+      setIsDragging(true);
+      setHasCollision(false);
+      onDragStart?.();
+      e.stopPropagation();
+    }
   };
 
   const handlePointerUp = (e) => {
     if (!pointerDownPos.current) return;
+
     const dx = e.clientX - pointerDownPos.current.x;
     const dy = e.clientY - pointerDownPos.current.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
 
-    if (distance < 5 && onSelect) {
+    if (isDragging) {
+      // End drag - snap back if collision
+      if (hasCollision && originalPositionRef.current) {
+        onDrag?.(originalPositionRef.current);
+      }
+      setIsDragging(false);
+      setHasCollision(false);
+      onDragEnd?.();
+      originalPositionRef.current = null;
+    } else if (distance < 5 && onSelect) {
+      // This was a click, not a drag
       onSelect();
       e.stopPropagation();
     }
+
     pointerDownPos.current = null;
   };
+
+  // Handle pointer leaving the canvas during drag
+  useEffect(() => {
+    if (!isDragging) return;
+
+    const handlePointerUp = () => {
+      if (hasCollision && originalPositionRef.current) {
+        onDrag?.(originalPositionRef.current);
+      }
+      setIsDragging(false);
+      setHasCollision(false);
+      onDragEnd?.();
+      originalPositionRef.current = null;
+      pointerDownPos.current = null;
+    };
+
+    window.addEventListener('pointerup', handlePointerUp);
+    return () => window.removeEventListener('pointerup', handlePointerUp);
+  }, [isDragging, hasCollision, onDrag, onDragEnd]);
+
+  // Determine display color based on collision state
+  const displayColor = isDragging && hasCollision ? '#ff4444' : color;
 
   // Opacity values based on selection
   const coreOpacity = isSelected ? 1.0 : 0.9;
@@ -102,13 +190,13 @@ const Node3D = ({ id, position, color, index = 0, isSelected = false, onSelect }
       {/* Core */}
       <mesh>
         <icosahedronGeometry args={[0.5, 2]} />
-        <meshBasicMaterial color={color} transparent opacity={coreOpacity} />
+        <meshBasicMaterial color={displayColor} transparent opacity={coreOpacity} />
       </mesh>
 
       {/* Glow */}
       <mesh>
         <icosahedronGeometry args={[0.7, 2]} />
-        <meshBasicMaterial color={color} transparent opacity={glowOpacity} side={BackSide} />
+        <meshBasicMaterial color={displayColor} transparent opacity={glowOpacity} side={BackSide} />
       </mesh>
 
       {/* Selection highlight ring */}
@@ -125,12 +213,12 @@ const Node3D = ({ id, position, color, index = 0, isSelected = false, onSelect }
       <group ref={orbit1Ref}>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[0.8, 0.02, 8, 32]} />
-          <meshBasicMaterial color={color} transparent opacity={0.6} />
+          <meshBasicMaterial color={displayColor} transparent opacity={0.6} />
         </mesh>
         <group ref={marker1Ref}>
           <mesh position={[0.8, 0, 0]}>
             <sphereGeometry args={[0.08, 8, 8]} />
-            <meshBasicMaterial color={color} />
+            <meshBasicMaterial color={displayColor} />
           </mesh>
         </group>
       </group>
@@ -139,12 +227,12 @@ const Node3D = ({ id, position, color, index = 0, isSelected = false, onSelect }
       <group ref={orbit2Ref}>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[0.8, 0.02, 8, 32]} />
-          <meshBasicMaterial color={color} transparent opacity={0.6} />
+          <meshBasicMaterial color={displayColor} transparent opacity={0.6} />
         </mesh>
         <group ref={marker2Ref}>
           <mesh position={[0.8, 0, 0]}>
             <sphereGeometry args={[0.08, 8, 8]} />
-            <meshBasicMaterial color={color} />
+            <meshBasicMaterial color={displayColor} />
           </mesh>
         </group>
       </group>

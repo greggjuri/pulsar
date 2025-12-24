@@ -5,7 +5,8 @@ const ControlsPanel = () => {
       <div className="text-gray-400 text-xs space-y-1">
         <div>Drag to rotate</div>
         <div>Scroll to zoom</div>
-        <div>Click node for info</div>
+        <div>Click node to select</div>
+        <div>Drag selected to move</div>
       </div>
     </div>
   );
