@@ -53,7 +53,7 @@ const ContextMenu = ({ x, y, items, onClose }) => {
   return (
     <div
       ref={menuRef}
-      className="fixed bg-black/90 border border-cyan-500/50 rounded shadow-lg py-1 z-50 min-w-40 backdrop-blur-sm"
+      className="fixed bg-black/90 border border-cyan-500/50 rounded shadow-lg py-1 z-50 min-w-40 backdrop-blur-sm pointer-events-auto"
       style={position}
     >
       {items.map((item, i) => (
