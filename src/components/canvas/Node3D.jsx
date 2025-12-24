@@ -10,7 +10,9 @@ const Node3D = ({
   color,
   index = 0,
   isSelected = false,
+  isConnectingSource = false,
   onSelect,
+  onContextMenu,
   onDragStart,
   onDrag,
   onDragEnd,
@@ -116,6 +118,9 @@ const Node3D = ({
   });
 
   const handlePointerDown = (e) => {
+    // Ignore right clicks for drag
+    if (e.button === 2) return;
+
     pointerDownPos.current = { x: e.clientX, y: e.clientY };
 
     // Only start drag for already selected nodes
@@ -128,6 +133,11 @@ const Node3D = ({
       onDragStart?.();
       e.stopPropagation();
     }
+  };
+
+  const handleRightClick = (e) => {
+    e.stopPropagation();
+    onContextMenu?.(e);
   };
 
   const handlePointerUp = (e) => {
@@ -183,12 +193,12 @@ const Node3D = ({
     return () => window.removeEventListener('pointerup', handleWindowPointerUp);
   }, [isDragging, onDrag, onDragEnd]);
 
-  // Determine display color based on collision state
-  const displayColor = isDragging && hasCollision ? '#ff4444' : color;
+  // Determine display color based on state
+  const displayColor = isDragging && hasCollision ? '#ff4444' : isConnectingSource ? '#ffff00' : color;
 
   // Opacity values based on selection
   const coreOpacity = isSelected ? 1.0 : 0.9;
-  const glowOpacity = isSelected ? 0.4 : 0.2;
+  const glowOpacity = isSelected || isConnectingSource ? 0.4 : 0.2;
 
   return (
     <group position={position} ref={groupRef}>
@@ -196,6 +206,7 @@ const Node3D = ({
       <mesh
         onPointerDown={handlePointerDown}
         onPointerUp={handlePointerUp}
+        onContextMenu={handleRightClick}
       >
         <sphereGeometry args={[0.6, 16, 16]} />
         <meshBasicMaterial transparent opacity={0} depthWrite={false} />
@@ -219,6 +230,16 @@ const Node3D = ({
           <mesh rotation={[Math.PI / 2, 0, 0]}>
             <torusGeometry args={[0.9, 0.04, 8, 32]} />
             <meshBasicMaterial color="#00ffff" transparent opacity={0.8} />
+          </mesh>
+        </group>
+      )}
+
+      {/* Connecting source indicator - pulsing yellow ring */}
+      {isConnectingSource && (
+        <group ref={highlightRef}>
+          <mesh rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[1.0, 0.06, 8, 32]} />
+            <meshBasicMaterial color="#ffff00" transparent opacity={0.8} />
           </mesh>
         </group>
       )}

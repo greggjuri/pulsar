@@ -4,8 +4,18 @@ import * as THREE from 'three';
 
 const PARTICLE_COUNT = 5;
 const PARTICLE_SPEED = 0.3;
+const CLICK_TUBE_RADIUS = 0.15;
 
-const Edge3D = ({ start, end, color = '#00ffff', style = 'solid', animated = true }) => {
+const Edge3D = ({
+  start,
+  end,
+  color = '#00ffff',
+  style = 'solid',
+  animated = true,
+  isSelected = false,
+  onSelect,
+  onContextMenu,
+}) => {
   const lineRef = useRef();
   const particlesRef = useRef();
   const offsetsRef = useRef(
@@ -68,11 +78,34 @@ const Edge3D = ({ start, end, color = '#00ffff', style = 'solid', animated = tru
     return positions;
   }, [curve]);
 
-  const lineColor = style === 'dashed' ? '#00ffff' : '#00ff88';
-  const lineOpacity = style === 'dashed' ? 0.4 : 0.5;
+  // Adjust colors based on selection
+  const baseLineColor = style === 'dashed' ? '#00ffff' : '#00ff88';
+  const lineColor = isSelected ? '#ffffff' : baseLineColor;
+  const baseLineOpacity = style === 'dashed' ? 0.4 : 0.5;
+  const lineOpacity = isSelected ? 0.9 : baseLineOpacity;
+  const particleOpacity = isSelected ? 1.0 : 0.8;
+
+  const handleClick = (e) => {
+    e.stopPropagation();
+    onSelect?.();
+  };
+
+  const handleContextMenu = (e) => {
+    e.stopPropagation();
+    onContextMenu?.(e);
+  };
 
   return (
     <group>
+      {/* Invisible click detection tube */}
+      <mesh
+        onPointerUp={handleClick}
+        onContextMenu={handleContextMenu}
+      >
+        <tubeGeometry args={[curve, 20, CLICK_TUBE_RADIUS, 8, false]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+      </mesh>
+
       {/* Edge line */}
       {style === 'dashed' ? (
         <line ref={lineRef}>
@@ -110,6 +143,19 @@ const Edge3D = ({ start, end, color = '#00ffff', style = 'solid', animated = tru
         </line>
       )}
 
+      {/* Selection glow effect */}
+      {isSelected && (
+        <mesh>
+          <tubeGeometry args={[curve, 20, 0.08, 8, false]} />
+          <meshBasicMaterial
+            color="#00ffff"
+            transparent
+            opacity={0.3}
+            blending={THREE.AdditiveBlending}
+          />
+        </mesh>
+      )}
+
       {/* Animated particles */}
       {animated && (
         <points ref={particlesRef}>
@@ -122,10 +168,10 @@ const Edge3D = ({ start, end, color = '#00ffff', style = 'solid', animated = tru
             />
           </bufferGeometry>
           <pointsMaterial
-            color={color}
-            size={0.15}
+            color={isSelected ? '#ffffff' : color}
+            size={isSelected ? 0.2 : 0.15}
             transparent
-            opacity={0.8}
+            opacity={particleOpacity}
             blending={THREE.AdditiveBlending}
           />
         </points>

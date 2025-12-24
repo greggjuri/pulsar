@@ -2,9 +2,11 @@ import { useMemo } from 'react';
 import Edge3D from './Edge3D';
 import { useGraphStore } from '../../stores/graphStore';
 
-const EdgeGroup = () => {
+const EdgeGroup = ({ onContextMenu }) => {
   const nodes = useGraphStore((s) => s.nodes);
   const edges = useGraphStore((s) => s.edges);
+  const selectedEdgeId = useGraphStore((s) => s.selectedEdgeId);
+  const selectEdge = useGraphStore((s) => s.selectEdge);
 
   // Create node position lookup map
   const nodeMap = useMemo(() => {
@@ -37,6 +39,9 @@ const EdgeGroup = () => {
             end={endPos}
             style={edge.style}
             animated={edge.animated}
+            isSelected={selectedEdgeId === edge.id}
+            onSelect={() => selectEdge(edge.id)}
+            onContextMenu={(e) => onContextMenu?.(e, 'edge', edge)}
           />
         );
       })}

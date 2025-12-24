@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Grid } from '@react-three/drei';
 import { DoubleSide } from 'three';
@@ -22,15 +22,94 @@ const SceneControls = () => {
   );
 };
 
+// Scene content with context menu handlers
+const SceneContent = ({ onContextMenu }) => {
+  return (
+    <>
+      <ambientLight intensity={0.5} />
+      <pointLight position={[10, 10, 10]} />
+      <NodeGroup onContextMenu={onContextMenu} />
+      <EdgeGroup onContextMenu={onContextMenu} />
+      <Grid
+        infiniteGrid
+        cellSize={1}
+        cellThickness={0.5}
+        cellColor="#1a3a3a"
+        sectionSize={5}
+        sectionThickness={1}
+        sectionColor="#0d4a4a"
+        fadeDistance={30}
+        fadeStrength={1}
+        side={DoubleSide}
+      />
+      <SceneControls />
+    </>
+  );
+};
+
 function App() {
   const clearSelection = useGraphStore((s) => s.clearSelection);
   const triggerFit = useGraphStore((s) => s.triggerFit);
   const triggerReset = useGraphStore((s) => s.triggerReset);
   const selectedNodeId = useGraphStore((s) => s.selectedNodeId);
+  const selectedEdgeId = useGraphStore((s) => s.selectedEdgeId);
+  const connectingFromNodeId = useGraphStore((s) => s.connectingFromNodeId);
   const deleteNode = useGraphStore((s) => s.deleteNode);
+  const deleteEdge = useGraphStore((s) => s.deleteEdge);
+  const startConnecting = useGraphStore((s) => s.startConnecting);
+  const cancelConnecting = useGraphStore((s) => s.cancelConnecting);
+
+  // Context menu state
+  const [contextMenu, setContextMenu] = useState(null);
 
   // Auto-save to localStorage on changes
   useAutoSave();
+
+  const closeContextMenu = useCallback(() => {
+    setContextMenu(null);
+  }, []);
+
+  // Handle context menu from 3D objects
+  const handleContextMenu = useCallback((event, type, item) => {
+    // Get screen coordinates from the native event
+    const nativeEvent = event.nativeEvent || event;
+    const x = nativeEvent.clientX;
+    const y = nativeEvent.clientY;
+
+    let items = [];
+
+    if (type === 'node') {
+      items = [
+        {
+          label: 'Connect to...',
+          action: () => startConnecting(item.id),
+        },
+        {
+          label: 'Delete',
+          action: () => deleteNode(item.id),
+        },
+      ];
+    } else if (type === 'edge') {
+      items = [
+        {
+          label: 'Delete',
+          action: () => deleteEdge(item.id),
+        },
+      ];
+    }
+
+    setContextMenu({ x, y, items });
+  }, [startConnecting, deleteNode, deleteEdge]);
+
+  // Handle pointer missed (click on empty space)
+  const handlePointerMissed = useCallback(() => {
+    if (connectingFromNodeId) {
+      cancelConnecting();
+    } else {
+      clearSelection();
+    }
+    closeContextMenu();
+  }, [connectingFromNodeId, cancelConnecting, clearSelection, closeContextMenu]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -41,45 +120,41 @@ function App() {
       }
 
       if (e.key === 'Escape') {
-        clearSelection();
+        if (connectingFromNodeId) {
+          cancelConnecting();
+        } else {
+          clearSelection();
+        }
+        closeContextMenu();
       } else if (e.key === 'f' || e.key === 'F') {
         triggerFit();
       } else if (e.key === 'r' || e.key === 'R' || e.key === 'Home') {
         triggerReset();
-      } else if (e.key === 'Delete' && selectedNodeId) {
-        deleteNode(selectedNodeId);
+      } else if (e.key === 'Delete') {
+        if (selectedNodeId) {
+          deleteNode(selectedNodeId);
+        } else if (selectedEdgeId) {
+          deleteEdge(selectedEdgeId);
+        }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [clearSelection, triggerFit, triggerReset, selectedNodeId, deleteNode]);
+  }, [clearSelection, triggerFit, triggerReset, selectedNodeId, selectedEdgeId, deleteNode, deleteEdge, connectingFromNodeId, cancelConnecting, closeContextMenu]);
 
   return (
     <div className="w-full h-screen bg-gray-950 relative">
       <Canvas
         camera={{ position: [0, 8, 15], fov: 60 }}
-        onPointerMissed={clearSelection}
+        onPointerMissed={handlePointerMissed}
       >
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} />
-        <NodeGroup />
-        <EdgeGroup />
-        <Grid
-          infiniteGrid
-          cellSize={1}
-          cellThickness={0.5}
-          cellColor="#1a3a3a"
-          sectionSize={5}
-          sectionThickness={1}
-          sectionColor="#0d4a4a"
-          fadeDistance={30}
-          fadeStrength={1}
-          side={DoubleSide}
-        />
-        <SceneControls />
+        <SceneContent onContextMenu={handleContextMenu} />
       </Canvas>
 
-      <HudOverlay />
+      <HudOverlay
+        contextMenu={contextMenu}
+        onCloseContextMenu={closeContextMenu}
+      />
     </div>
   );
 }

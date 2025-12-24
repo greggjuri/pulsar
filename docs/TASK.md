@@ -3,9 +3,30 @@
 ## Current Sprint: Core Interactivity
 
 ### Active Task
-**None** - Add Node complete!
+**None** - Context Menu & Edge Management complete!
 
 ### Completed Tasks
+
+#### PRP-12: Context Menu & Edge Management
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-12-context-menu-edge-management.md`
+- PRP: `PRPs/prp-12-context-menu-edge-management.md`
+- Completed: 2024-12-24
+
+**What was done:**
+- Added selectedEdgeId, connectingFromNodeId to graphStore
+- Added selectEdge, deleteEdge, startConnecting, cancelConnecting, addEdge actions
+- Created ContextMenu component (reusable, appears at cursor)
+- Created EdgeInfoPanel component (shows source/target/style/animated)
+- Modified Edge3D with TubeGeometry for click detection, selection visuals
+- Modified Node3D with right-click handler, connecting source visuals
+- Integrated context menu system in App.jsx
+- Updated ControlsPanel with connecting mode hints
+- Edge selection with visual feedback (brighter, glow effect)
+- Edge deletion via DEL key or context menu
+- Edge creation via "Connect to..." flow
+- Validation: cannot connect to self, cannot create duplicate edges
+- ESC cancels connecting mode
 
 #### PRP-11: Add Node
 - Status: COMPLETE
@@ -194,6 +215,25 @@
 ---
 
 ## Session Notes
+
+### Session 12 - Context Menu & Edge Management
+**Date:** 2024-12-24
+
+**Accomplished:**
+- Generated and executed PRP-12 (context menu & edge management)
+- Created reusable ContextMenu component
+- Created EdgeInfoPanel component
+- Added edge selection with visual feedback
+- Added edge deletion via DEL key and context menu
+- Added "Connect to..." flow for edge creation
+- Modified Edge3D with TubeGeometry for click detection
+- Modified Node3D with right-click handler
+- Updated ControlsPanel with contextual hints
+
+**Next Session:**
+- Edit node properties (labels, colors)
+
+---
 
 ### Session 11 - Add Node
 **Date:** 2024-12-24

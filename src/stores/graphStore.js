@@ -53,6 +53,8 @@ export const useGraphStore = create((set) => ({
   nodes: initialState.nodes,
   edges: initialState.edges,
   selectedNodeId: null,
+  selectedEdgeId: null,
+  connectingFromNodeId: null,
   draggingNodeId: null,
 
   // Diagram metadata
@@ -68,11 +70,14 @@ export const useGraphStore = create((set) => ({
       diagramName: graph.name || 'Imported Diagram',
       diagramId: graph.id || crypto.randomUUID(),
       selectedNodeId: null,
+      selectedEdgeId: null,
+      connectingFromNodeId: null,
       draggingNodeId: null,
     }),
 
-  selectNode: (id) => set({ selectedNodeId: id }),
-  clearSelection: () => set({ selectedNodeId: null }),
+  selectNode: (id) => set({ selectedNodeId: id, selectedEdgeId: null }),
+  selectEdge: (id) => set({ selectedEdgeId: id, selectedNodeId: null }),
+  clearSelection: () => set({ selectedNodeId: null, selectedEdgeId: null, connectingFromNodeId: null }),
 
   // Delete node and connected edges
   deleteNode: (id) =>
@@ -95,6 +100,46 @@ export const useGraphStore = create((set) => ({
       return {
         nodes: [...state.nodes, newNode],
         selectedNodeId: newNode.id,
+        selectedEdgeId: null,
+      };
+    }),
+
+  // Edge management
+  deleteEdge: (id) =>
+    set((state) => ({
+      edges: state.edges.filter((e) => e.id !== id),
+      selectedEdgeId: state.selectedEdgeId === id ? null : state.selectedEdgeId,
+    })),
+
+  startConnecting: (nodeId) => set({ connectingFromNodeId: nodeId, selectedNodeId: null, selectedEdgeId: null }),
+  cancelConnecting: () => set({ connectingFromNodeId: null }),
+
+  addEdge: (source, target) =>
+    set((state) => {
+      // Cannot connect to self
+      if (source === target) return state;
+
+      // Check for duplicate edge (either direction)
+      const exists = state.edges.some(
+        (e) =>
+          (e.source === source && e.target === target) ||
+          (e.source === target && e.target === source)
+      );
+      if (exists) return state;
+
+      const newEdge = {
+        id: `edge-${Date.now()}`,
+        source,
+        target,
+        animated: true,
+        style: 'solid',
+      };
+
+      return {
+        edges: [...state.edges, newEdge],
+        connectingFromNodeId: null,
+        selectedEdgeId: newEdge.id,
+        selectedNodeId: null,
       };
     }),
 

@@ -3,17 +3,32 @@ import ControlsPanel from './ControlsPanel';
 import StatsPanel from './StatsPanel';
 import CornerBrackets from './CornerBrackets';
 import NodeInfoPanel from './NodeInfoPanel';
+import EdgeInfoPanel from './EdgeInfoPanel';
 import FileControlsPanel from './FileControlsPanel';
+import ContextMenu from './ContextMenu';
 import { useGraphStore } from '../../stores/graphStore';
 
-const HudOverlay = () => {
+const HudOverlay = ({ contextMenu, onCloseContextMenu }) => {
   const nodes = useGraphStore((s) => s.nodes);
   const edges = useGraphStore((s) => s.edges);
   const selectedNodeId = useGraphStore((s) => s.selectedNodeId);
+  const selectedEdgeId = useGraphStore((s) => s.selectedEdgeId);
   const clearSelection = useGraphStore((s) => s.clearSelection);
 
   const selectedNode = selectedNodeId
     ? nodes.find((n) => n.id === selectedNodeId)
+    : null;
+
+  const selectedEdge = selectedEdgeId
+    ? edges.find((e) => e.id === selectedEdgeId)
+    : null;
+
+  // Get source/target node labels for EdgeInfoPanel
+  const sourceNode = selectedEdge
+    ? nodes.find((n) => n.id === selectedEdge.source)
+    : null;
+  const targetNode = selectedEdge
+    ? nodes.find((n) => n.id === selectedEdge.target)
     : null;
 
   return (
@@ -37,6 +52,26 @@ const HudOverlay = () => {
       {/* Node Info Panel - shown when a node is selected */}
       {selectedNode && (
         <NodeInfoPanel node={selectedNode} onClose={clearSelection} />
+      )}
+
+      {/* Edge Info Panel - shown when an edge is selected */}
+      {selectedEdge && (
+        <EdgeInfoPanel
+          edge={selectedEdge}
+          sourceNode={sourceNode}
+          targetNode={targetNode}
+          onClose={clearSelection}
+        />
+      )}
+
+      {/* Context Menu */}
+      {contextMenu && (
+        <ContextMenu
+          x={contextMenu.x}
+          y={contextMenu.y}
+          items={contextMenu.items}
+          onClose={onCloseContextMenu}
+        />
       )}
     </div>
   );
