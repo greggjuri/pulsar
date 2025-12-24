@@ -53,7 +53,7 @@ const FileControlsPanel = () => {
   };
 
   return (
-    <div className="absolute top-16 left-4 bg-black/60 border border-cyan-500/30 rounded px-3 py-2 font-mono text-xs pointer-events-auto">
+    <div className="absolute top-20 left-4 bg-black/60 border border-cyan-500/30 rounded px-3 py-2 font-mono text-xs pointer-events-auto">
       <div className="flex items-center gap-2">
         <button
           onClick={handleExport}
