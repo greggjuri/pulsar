@@ -7,6 +7,22 @@ export const useGraphStore = create((set) => ({
   selectedNodeId: null,
   draggingNodeId: null,
 
+  // Diagram metadata
+  diagramName: 'Untitled Diagram',
+  diagramId: null,
+
+  setDiagramName: (name) => set({ diagramName: name }),
+
+  loadGraph: (graph) =>
+    set({
+      nodes: graph.nodes,
+      edges: graph.edges,
+      diagramName: graph.name || 'Imported Diagram',
+      diagramId: graph.id || crypto.randomUUID(),
+      selectedNodeId: null,
+      draggingNodeId: null,
+    }),
+
   selectNode: (id) => set({ selectedNodeId: id }),
   clearSelection: () => set({ selectedNodeId: null }),
 

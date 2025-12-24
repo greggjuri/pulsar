@@ -3,9 +3,25 @@
 ## Current Sprint: Core Interactivity
 
 ### Active Task
-**None** - Camera controls complete!
+**None** - JSON Export/Import complete!
 
 ### Completed Tasks
+
+#### PRP-08: JSON Export/Import
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-08-json-export-import.md`
+- PRP: `PRPs/prp-08-json-export-import.md`
+- Completed: 2024-12-24
+
+**What was done:**
+- Created graphSchema.js utility with serializeGraph and validateGraph functions
+- Created fileExport.js with downloadAsJson and generateFilename helpers
+- Created fileImport.js with openFilePicker for JSON file selection
+- Extended graphStore with diagramName, diagramId, setDiagramName, and loadGraph
+- Created FileControlsPanel with Export/Import buttons (top-left position)
+- Export prompts for diagram name if untitled, downloads formatted JSON
+- Import validates JSON structure, shows errors, or loads graph and fits camera
+- Full roundtrip support: export → import preserves all node/edge data
 
 #### PRP-07: Camera Controls
 - Status: COMPLETE
@@ -124,7 +140,7 @@
 ## Task Queue
 
 ### Up Next
-1. Import/export JSON
+1. localStorage persistence
 
 ### Backlog
 - Node palette and editor
@@ -135,6 +151,24 @@
 ---
 
 ## Session Notes
+
+### Session 8 - JSON Export/Import
+**Date:** 2024-12-24
+
+**Accomplished:**
+- Generated and executed PRP-08 (JSON export/import)
+- Created graphSchema.js with SCHEMA_VERSION, serializeGraph, validateGraph
+- Created fileExport.js for blob download
+- Created fileImport.js for file picker
+- Extended graphStore with diagramName, diagramId, loadGraph
+- Created FileControlsPanel in top-left with Export/Import buttons
+- Full validation on import with specific error messages
+- Camera fits to imported nodes after successful import
+
+**Next Session:**
+- localStorage persistence
+
+---
 
 ### Session 7 - Camera Controls
 **Date:** 2024-12-24
