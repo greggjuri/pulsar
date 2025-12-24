@@ -10,13 +10,14 @@ const Node3D = ({ id, position, color, index = 0 }) => {
   useFrame((state, delta) => {
     const time = state.clock.elapsedTime;
 
-    // Both orbits rotate on Y axis (orbital motion)
+    // Orbit 1 - ring sweeps front-to-back (rotate around X axis)
     if (orbit1Ref.current) {
-      orbit1Ref.current.rotation.y += delta * 0.8;
+      orbit1Ref.current.rotation.x += delta * 0.5;
     }
 
+    // Orbit 2 - ring sweeps side-to-side (rotate around Z axis)
     if (orbit2Ref.current) {
-      orbit2Ref.current.rotation.y += delta * 0.6;
+      orbit2Ref.current.rotation.z += delta * 0.4;
     }
 
     // Bobbing
@@ -52,18 +53,16 @@ const Node3D = ({ id, position, color, index = 0 }) => {
         </mesh>
       </group>
 
-      {/* Orbit 2 - tilted plane */}
-      <group rotation={[Math.PI / 3, 0, 0]}>
-        <group ref={orbit2Ref}>
-          <mesh rotation={[Math.PI / 2, 0, 0]}>
-            <torusGeometry args={[0.8, 0.02, 8, 32]} />
-            <meshBasicMaterial color={color} transparent opacity={0.6} />
-          </mesh>
-          <mesh position={[0.8, 0, 0]}>
-            <sphereGeometry args={[0.08, 8, 8]} />
-            <meshBasicMaterial color={color} />
-          </mesh>
-        </group>
+      {/* Orbit 2 */}
+      <group ref={orbit2Ref}>
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.8, 0.02, 8, 32]} />
+          <meshBasicMaterial color={color} transparent opacity={0.6} />
+        </mesh>
+        <mesh position={[0.8, 0, 0]}>
+          <sphereGeometry args={[0.08, 8, 8]} />
+          <meshBasicMaterial color={color} />
+        </mesh>
       </group>
     </group>
   );
