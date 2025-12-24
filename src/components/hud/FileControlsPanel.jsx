@@ -57,7 +57,7 @@ const FileControlsPanel = () => {
       <div className="flex items-center gap-2">
         <button
           onClick={handleExport}
-          className="text-cyan-400 hover:text-cyan-300 transition-colors"
+          className="px-2 py-1 rounded text-cyan-400 hover:text-white hover:bg-cyan-500/30 transition-all"
           title="Export diagram"
         >
           ↓ EXPORT
@@ -65,7 +65,7 @@ const FileControlsPanel = () => {
         <span className="text-cyan-500/30">|</span>
         <button
           onClick={handleImport}
-          className="text-cyan-400 hover:text-cyan-300 transition-colors"
+          className="px-2 py-1 rounded text-cyan-400 hover:text-white hover:bg-cyan-500/30 transition-all"
           title="Import diagram"
         >
           ↑ IMPORT
