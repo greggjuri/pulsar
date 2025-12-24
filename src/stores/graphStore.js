@@ -19,4 +19,10 @@ export const useGraphStore = create((set) => ({
       node.id === id ? { ...node, position } : node
     ),
   })),
+
+  // Camera actions
+  cameraAction: null, // 'fit' | 'reset' | null
+  triggerFit: () => set({ cameraAction: 'fit' }),
+  triggerReset: () => set({ cameraAction: 'reset' }),
+  clearCameraAction: () => set({ cameraAction: null }),
 }));

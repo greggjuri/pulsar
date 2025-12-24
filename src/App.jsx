@@ -1,31 +1,50 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Grid } from '@react-three/drei';
 import { DoubleSide } from 'three';
 import NodeGroup from './components/canvas/NodeGroup';
 import EdgeGroup from './components/canvas/EdgeGroup';
+import CameraController from './components/canvas/CameraController';
 import HudOverlay from './components/hud/HudOverlay';
 import { useGraphStore } from './stores/graphStore';
 
 // Wrapper to access store inside Canvas (R3F context)
 const SceneControls = () => {
+  const controlsRef = useRef();
   const draggingNodeId = useGraphStore((s) => s.draggingNodeId);
-  return <OrbitControls enabled={!draggingNodeId} />;
+
+  return (
+    <>
+      <OrbitControls ref={controlsRef} enabled={!draggingNodeId} />
+      <CameraController controlsRef={controlsRef} />
+    </>
+  );
 };
 
 function App() {
   const clearSelection = useGraphStore((s) => s.clearSelection);
+  const triggerFit = useGraphStore((s) => s.triggerFit);
+  const triggerReset = useGraphStore((s) => s.triggerReset);
 
-  // Escape key to clear selection
+  // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e) => {
+      // Ignore if typing in an input field
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        return;
+      }
+
       if (e.key === 'Escape') {
         clearSelection();
+      } else if (e.key === 'f' || e.key === 'F') {
+        triggerFit();
+      } else if (e.key === 'r' || e.key === 'R' || e.key === 'Home') {
+        triggerReset();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [clearSelection]);
+  }, [clearSelection, triggerFit, triggerReset]);
 
   return (
     <div className="w-full h-screen bg-gray-950 relative">

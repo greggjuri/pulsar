@@ -7,6 +7,7 @@ const ControlsPanel = () => {
         <div>Scroll to zoom</div>
         <div>Click node to select</div>
         <div>Drag selected to move</div>
+        <div>F = fit view, R = reset</div>
       </div>
     </div>
   );

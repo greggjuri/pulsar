@@ -3,9 +3,24 @@
 ## Current Sprint: Core Interactivity
 
 ### Active Task
-**None** - Node dragging complete!
+**None** - Camera controls complete!
 
 ### Completed Tasks
+
+#### PRP-07: Camera Controls
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-07-camera-controls.md`
+- PRP: `PRPs/prp-07-camera-controls.md`
+- Completed: 2024-12-24
+
+**What was done:**
+- Created camera.js utility with bounding calculations
+- Added cameraAction, triggerFit, triggerReset to graphStore
+- Created CameraController component with lerp-based animation
+- Created ViewControlsPanel with Fit and Reset buttons
+- Added keyboard shortcuts: F (fit), R/Home (reset)
+- Animation interruption when user interacts with OrbitControls
+- Edge cases handled: no nodes, single node, dragging
 
 #### PRP-06: Node Dragging
 - Status: COMPLETE
@@ -121,12 +136,28 @@
 
 ## Session Notes
 
+### Session 7 - Camera Controls
+**Date:** 2024-12-24
+
+**Accomplished:**
+- Generated and executed PRP-07 (camera controls)
+- Created camera.js utility for bounding box calculations
+- Created CameraController with lerp-based animation
+- ViewControlsPanel with Fit (⊞) and Reset (↺) buttons
+- Keyboard shortcuts: F for fit, R/Home for reset
+- Smooth animation (~500ms) with user interaction detection
+
+**Next Session:**
+- Import/export JSON
+
+---
+
 ### Session 6 - Node Dragging
 **Date:** 2024-12-24
 
 **Accomplished:**
 - Generated and executed PRP-06 (node dragging)
-- Created useDrag hook for camera-perpendicular plane calculations
+- Created useDrag hook for horizontal XZ plane dragging
 - Created collision.js utility with MIN_NODE_DISTANCE = 2.0
 - Implemented select-then-drag pattern (must click to select first)
 - Collision detection with red visual feedback
@@ -135,11 +166,11 @@
 - Edges follow dragged nodes in real-time
 
 **Decisions Made:**
-- Camera-perpendicular drag plane for intuitive feel (DECISION-012)
+- Horizontal XZ drag plane for architecture diagrams (DECISION-012)
 - 2.0 unit minimum distance between node centers
 
 **Next Session:**
-- Import/export JSON
+- Camera controls
 
 ---
 
