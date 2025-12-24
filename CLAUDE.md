@@ -121,6 +121,11 @@ npm run test         # Run tests
 
 ## Important Notes
 
+### ⚠️ After Every Feature/Task Completion — MANDATORY
+1. **Update docs/TASK.md** - Mark task complete, add session notes
+2. **Update docs/DECISIONS.md** - Log any architectural decisions made
+3. **Git commit and push** - Always commit and push after a feature is complete
+
 ### ⚠️ Cost Awareness — CRITICAL
 - **Every AWS service addition requires cost estimate in INITIAL spec**
 - Prefer free tier eligible services

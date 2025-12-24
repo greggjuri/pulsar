@@ -224,6 +224,31 @@ Implement strict cost management practices:
 
 ---
 
+## [DECISION-009] Use Tailwind CSS v4 with Vite Plugin
+
+**Date:** 2024-12-23
+**Status:** Accepted
+
+**Context:**
+Setting up the project foundation required choosing a Tailwind CSS version. The INITIAL spec referenced v3.4.0, but Tailwind v4 was recently released with a fundamentally different configuration approach (CSS-first vs JavaScript config file).
+
+**Decision:**
+Use Tailwind CSS v4 with the `@tailwindcss/vite` plugin instead of v3.
+
+**Consequences:**
+- Simpler setup: No `tailwind.config.js` or `postcss.config.js` files needed
+- CSS-first configuration aligns better with modern CSS practices
+- Native CSS variables for theming (useful for sci-fi glow effects)
+- Future-proof: No v3→v4 migration needed later
+- Fewer dependencies: 1 package (`@tailwindcss/vite`) vs 3 (`tailwindcss`, `autoprefixer`, `postcss`)
+- Some Tailwind v3 tutorials/plugins may not apply directly
+
+**Alternatives Considered:**
+- Tailwind v3.4.0: More tutorials available, but would require migration eventually
+- No CSS framework: More work for utility classes, less consistent
+
+---
+
 ## Template for New Decisions
 
 ```
