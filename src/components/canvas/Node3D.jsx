@@ -28,9 +28,11 @@ const Node3D = ({
   // Scale pulse animation state
   const pulseRef = useRef({ active: false, scale: 1 });
 
-  // Drag state
+  // Drag state - refs used in useFrame to avoid stale closures
   const [isDragging, setIsDragging] = useState(false);
   const [hasCollision, setHasCollision] = useState(false);
+  const isDraggingRef = useRef(false);
+  const hasCollisionRef = useRef(false);
 
   // Drag hook
   const { startDrag, updateDrag } = useDrag();
@@ -61,10 +63,12 @@ const Node3D = ({
     const time = state.clock.elapsedTime;
 
     // Handle drag updates in animation frame for smooth movement
-    if (isDragging) {
+    // Use ref to immediately stop when drag ends (state update is async)
+    if (isDraggingRef.current) {
       const newPos = updateDrag();
       if (newPos) {
         const collision = checkCollision(id, newPos, allNodes);
+        hasCollisionRef.current = collision;
         setHasCollision(collision);
         onDrag?.(newPos);
       }
@@ -118,6 +122,7 @@ const Node3D = ({
     if (isSelected) {
       originalPositionRef.current = [...position];
       startDrag(position);
+      isDraggingRef.current = true;
       setIsDragging(true);
       setHasCollision(false);
       onDragStart?.();
@@ -133,12 +138,16 @@ const Node3D = ({
     const distance = Math.sqrt(dx * dx + dy * dy);
 
     if (isDragging) {
-      // End drag - snap back if collision
-      if (hasCollision && originalPositionRef.current) {
+      // Stop drag loop FIRST (ref is checked in useFrame)
+      isDraggingRef.current = false;
+
+      // Snap back if collision
+      if (hasCollisionRef.current && originalPositionRef.current) {
         onDrag?.(originalPositionRef.current);
       }
       setIsDragging(false);
       setHasCollision(false);
+      hasCollisionRef.current = false;
       onDragEnd?.();
       originalPositionRef.current = null;
     } else if (distance < 5 && onSelect) {
@@ -154,20 +163,25 @@ const Node3D = ({
   useEffect(() => {
     if (!isDragging) return;
 
-    const handlePointerUp = () => {
-      if (hasCollision && originalPositionRef.current) {
+    const handleWindowPointerUp = () => {
+      // Stop drag loop FIRST (ref is checked in useFrame)
+      isDraggingRef.current = false;
+
+      // Snap back if collision
+      if (hasCollisionRef.current && originalPositionRef.current) {
         onDrag?.(originalPositionRef.current);
       }
       setIsDragging(false);
       setHasCollision(false);
+      hasCollisionRef.current = false;
       onDragEnd?.();
       originalPositionRef.current = null;
       pointerDownPos.current = null;
     };
 
-    window.addEventListener('pointerup', handlePointerUp);
-    return () => window.removeEventListener('pointerup', handlePointerUp);
-  }, [isDragging, hasCollision, onDrag, onDragEnd]);
+    window.addEventListener('pointerup', handleWindowPointerUp);
+    return () => window.removeEventListener('pointerup', handleWindowPointerUp);
+  }, [isDragging, onDrag, onDragEnd]);
 
   // Determine display color based on collision state
   const displayColor = isDragging && hasCollision ? '#ff4444' : color;

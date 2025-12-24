@@ -27,9 +27,12 @@ const EdgeGroup = () => {
           return null;
         }
 
+        // Key includes positions to force geometry recreation when nodes move
+        const posKey = `${edge.id}-${startPos.join(',')}-${endPos.join(',')}`;
+
         return (
           <Edge3D
-            key={edge.id}
+            key={posKey}
             start={startPos}
             end={endPos}
             style={edge.style}
