@@ -96,7 +96,7 @@ const Node3D = ({ id, position, color, index = 0, isSelected = false, onSelect }
         onPointerUp={handlePointerUp}
       >
         <sphereGeometry args={[0.6, 16, 16]} />
-        <meshBasicMaterial transparent opacity={0} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 
       {/* Core */}
