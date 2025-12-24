@@ -6,18 +6,28 @@ const Node3D = ({ id, position, color, index = 0 }) => {
   const groupRef = useRef();
   const orbit1Ref = useRef();
   const orbit2Ref = useRef();
+  const marker1Ref = useRef();
+  const marker2Ref = useRef();
 
   useFrame((state, delta) => {
     const time = state.clock.elapsedTime;
 
-    // Orbit 1 - ring sweeps front-to-back (rotate around X axis)
+    // Orbit 1 - ring sweeps front-to-back
     if (orbit1Ref.current) {
       orbit1Ref.current.rotation.x += delta * 0.5;
     }
+    // Marker 1 - orbits along the ring
+    if (marker1Ref.current) {
+      marker1Ref.current.rotation.y += delta * 0.8;
+    }
 
-    // Orbit 2 - ring sweeps side-to-side (rotate around Z axis)
+    // Orbit 2 - ring sweeps side-to-side
     if (orbit2Ref.current) {
       orbit2Ref.current.rotation.z += delta * 0.4;
+    }
+    // Marker 2 - orbits along the ring
+    if (marker2Ref.current) {
+      marker2Ref.current.rotation.y += delta * 0.6;
     }
 
     // Bobbing
@@ -47,10 +57,12 @@ const Node3D = ({ id, position, color, index = 0 }) => {
           <torusGeometry args={[0.8, 0.02, 8, 32]} />
           <meshBasicMaterial color={color} transparent opacity={0.6} />
         </mesh>
-        <mesh position={[0.8, 0, 0]}>
-          <sphereGeometry args={[0.08, 8, 8]} />
-          <meshBasicMaterial color={color} />
-        </mesh>
+        <group ref={marker1Ref}>
+          <mesh position={[0.8, 0, 0]}>
+            <sphereGeometry args={[0.08, 8, 8]} />
+            <meshBasicMaterial color={color} />
+          </mesh>
+        </group>
       </group>
 
       {/* Orbit 2 */}
@@ -59,10 +71,12 @@ const Node3D = ({ id, position, color, index = 0 }) => {
           <torusGeometry args={[0.8, 0.02, 8, 32]} />
           <meshBasicMaterial color={color} transparent opacity={0.6} />
         </mesh>
-        <mesh position={[0.8, 0, 0]}>
-          <sphereGeometry args={[0.08, 8, 8]} />
-          <meshBasicMaterial color={color} />
-        </mesh>
+        <group ref={marker2Ref}>
+          <mesh position={[0.8, 0, 0]}>
+            <sphereGeometry args={[0.08, 8, 8]} />
+            <meshBasicMaterial color={color} />
+          </mesh>
+        </group>
       </group>
     </group>
   );
