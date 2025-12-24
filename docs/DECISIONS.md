@@ -249,6 +249,29 @@ Use Tailwind CSS v4 with the `@tailwindcss/vite` plugin instead of v3.
 
 ---
 
+## [DECISION-010] Delta-Based Animations in useFrame
+
+**Date:** 2024-12-23
+**Status:** Accepted
+
+**Context:**
+When implementing 3D animations with React Three Fiber's `useFrame` hook, we need to choose between fixed increments (`rotation += 0.01`) or delta-based increments (`rotation += delta * speed`).
+
+**Decision:**
+Use delta-based animations for all continuous motion (rotation, movement) in useFrame callbacks.
+
+**Consequences:**
+- Animations are frame-rate independent (consistent on 60Hz, 120Hz, 144Hz displays)
+- Code pattern: `ref.current.rotation.z += delta * speed` where speed is the desired radians/second
+- Slightly more verbose but more correct
+- Time-based animations (sine waves using `clock.elapsedTime`) are already frame-rate independent
+
+**Alternatives Considered:**
+- Fixed increments (`+= 0.01`): Simpler but speed varies with refresh rate
+- Separate animation library: Overkill for simple rotations
+
+---
+
 ## Template for New Decisions
 
 ```

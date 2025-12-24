@@ -1,11 +1,26 @@
 # TASK.md - Current Work Status
 
-## Current Sprint: Project Foundation
+## Current Sprint: Core Visualization
 
 ### Active Task
-**None** - Foundation complete, ready for next task
+**None** - Node rendering complete, ready for next task
 
 ### Completed Tasks
+
+#### PRP-02: Node Rendering
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-02-node-rendering.md`
+- PRP: `PRPs/prp-02-node-rendering.md`
+- Completed: 2024-12-23
+
+**What was done:**
+- Created Node3D component with icosahedron core, glow halo, rotating rings
+- Implemented delta-based ring rotation animations (frame-rate independent)
+- Implemented vertical bobbing motion with per-node offset
+- Created NodeGroup component for rendering multiple nodes
+- Added 5 test nodes with AWS-themed colors
+- Added Grid helper for spatial reference
+- Adjusted camera for better scene view
 
 #### PRP-01: Project Foundation
 - Status: COMPLETE
@@ -28,39 +43,40 @@
 ## Task Queue
 
 ### Up Next
-1. `initial-02-basic-scene` - 3D canvas with orbit controls and grid
-2. `initial-03-node-rendering` - Render nodes with glow effect
-3. `initial-04-edge-rendering` - Animated particle edges
-4. `initial-05-hud-overlay` - Sci-fi styled UI overlay
+1. `initial-03-edge-rendering` - Animated particle edges between nodes
+2. `initial-04-hud-overlay` - Enhanced sci-fi styled UI overlay
+3. `initial-05-node-selection` - Click to select nodes, info panel
 
 ### Backlog
-- Node selection and info panel
 - Drag to reposition nodes
 - Zustand state management
 - Import/export JSON
 - Node palette and editor
-- Post-processing effects
+- Post-processing effects (bloom)
 - AWS icon library
+- Node labels/text
 
 ---
 
 ## Session Notes
 
-### Session 2 - Foundation Setup
+### Session 2 - Foundation + Node Rendering
 **Date:** 2024-12-23
 
 **Accomplished:**
-- Generated PRP-01 from INITIAL spec
+- Generated and executed PRP-01 (project foundation)
 - Decided to use Tailwind v4 (DECISION-009)
-- Executed PRP-01 successfully (8/8 steps complete)
-- Project now has working 3D scene with rotating cube and HUD
+- Generated and executed PRP-02 (node rendering)
+- Decided to use delta-based animations (DECISION-010)
+- Scene now shows 5 glowing nodes with rotating rings and bobbing animation
 
 **Decisions Made:**
-- Use Tailwind CSS v4 with @tailwindcss/vite plugin (simpler, future-proof)
+- Use Tailwind CSS v4 with @tailwindcss/vite plugin
+- Use delta-based animations in useFrame for frame-rate independence
 
 **Next Session:**
-- Create INITIAL spec for basic scene enhancements (grid, better controls)
-- Or proceed to node rendering if scene is sufficient
+- Create INITIAL spec for edge rendering (animated particle connections)
+- Or add node labels/selection if edges can wait
 
 ---
 
@@ -86,4 +102,4 @@
 ## Notes
 - POC code available in `reference/poc-visualization.jsx`
 - Using context engineering from: https://github.com/coleam00/context-engineering-intro
-- Run `npm run dev` to start development server
+- Run `npm run dev` to start development server (currently on port 5175)

@@ -1,14 +1,26 @@
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import TestBox from './components/canvas/TestBox';
+import { OrbitControls, Grid } from '@react-three/drei';
+import NodeGroup from './components/canvas/NodeGroup';
+import { testNodes } from './data/testNodes';
 
 function App() {
   return (
     <div className="w-full h-screen bg-gray-950 relative">
-      <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
+      <Canvas camera={{ position: [0, 8, 15], fov: 60 }}>
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
-        <TestBox />
+        <NodeGroup nodes={testNodes} />
+        <Grid
+          infiniteGrid
+          cellSize={1}
+          cellThickness={0.5}
+          cellColor="#1a3a3a"
+          sectionSize={5}
+          sectionThickness={1}
+          sectionColor="#0d4a4a"
+          fadeDistance={30}
+          fadeStrength={1}
+        />
         <OrbitControls />
       </Canvas>
 
