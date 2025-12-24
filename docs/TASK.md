@@ -3,9 +3,25 @@
 ## Current Sprint: Core Visualization
 
 ### Active Task
-**None** - Node rendering complete, ready for next task
+**None** - Edge rendering complete, ready for next task
 
 ### Completed Tasks
+
+#### PRP-03: Edge Rendering
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-03-edge-rendering.md`
+- PRP: `PRPs/prp-03-edge-rendering.md`
+- Completed: 2024-12-23
+
+**What was done:**
+- Created Edge3D component with curved bezier lines (QuadraticBezierCurve3)
+- Implemented solid and dashed line styles
+- Created particle animation system (5 particles per edge)
+- Particles flow along edge path with delta-based timing
+- Additive blending for glow effect
+- Created EdgeGroup component for rendering multiple edges
+- Added 4 test edges connecting existing nodes
+- Integrated into main App scene
 
 #### PRP-02: Node Rendering
 - Status: COMPLETE
@@ -46,9 +62,8 @@
 ## Task Queue
 
 ### Up Next
-1. `initial-03-edge-rendering` - Animated particle edges between nodes
-2. `initial-04-hud-overlay` - Enhanced sci-fi styled UI overlay
-3. `initial-05-node-selection` - Click to select nodes, info panel
+1. `initial-04-hud-overlay` - Enhanced sci-fi styled UI overlay
+2. `initial-05-node-selection` - Click to select nodes, info panel
 
 ### Backlog
 - Drag to reposition nodes
@@ -62,6 +77,22 @@
 ---
 
 ## Session Notes
+
+### Session 3 - Edge Rendering
+**Date:** 2024-12-23
+
+**Accomplished:**
+- Generated and executed PRP-03 (edge rendering)
+- Created Edge3D with curved bezier lines and particle animation
+- Solid and dashed line styles working
+- Particles flow along edges with glow effect
+- 4 test edges connecting nodes
+
+**Next Session:**
+- Create INITIAL spec for HUD overlay enhancements
+- Or add node selection/info panel
+
+---
 
 ### Session 2 - Foundation + Node Rendering
 **Date:** 2024-12-23
@@ -79,10 +110,6 @@
 - Use Tailwind CSS v4 with @tailwindcss/vite plugin
 - Use delta-based animations in useFrame for frame-rate independence
 - Use nested groups for orbital animation (outer = static tilt, inner = animated rotation)
-
-**Next Session:**
-- Create INITIAL spec for edge rendering (animated particle connections)
-- Or add node labels/selection if edges can wait
 
 ---
 

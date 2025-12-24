@@ -1,7 +1,9 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Grid } from '@react-three/drei';
 import NodeGroup from './components/canvas/NodeGroup';
+import EdgeGroup from './components/canvas/EdgeGroup';
 import { testNodes } from './data/testNodes';
+import { testEdges } from './data/testEdges';
 
 function App() {
   return (
@@ -10,6 +12,7 @@ function App() {
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
         <NodeGroup nodes={testNodes} />
+        <EdgeGroup edges={testEdges} nodes={testNodes} />
         <Grid
           infiniteGrid
           cellSize={1}
