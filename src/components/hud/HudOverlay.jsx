@@ -1,6 +1,5 @@
 import HeaderPanel from './HeaderPanel';
 import ControlsPanel from './ControlsPanel';
-import ViewControlsPanel from './ViewControlsPanel';
 import StatsPanel from './StatsPanel';
 import CornerBrackets from './CornerBrackets';
 import NodeInfoPanel from './NodeInfoPanel';
@@ -30,7 +29,6 @@ const HudOverlay = () => {
       {/* HUD Panels */}
       <HeaderPanel />
       <ControlsPanel />
-      <ViewControlsPanel />
       <StatsPanel nodeCount={nodes.length} edgeCount={edges.length} />
       <CornerBrackets />
 
