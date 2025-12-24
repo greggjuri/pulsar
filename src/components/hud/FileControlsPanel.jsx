@@ -2,6 +2,7 @@ import { useGraphStore } from '../../stores/graphStore';
 import { serializeGraph, validateGraph } from '../../utils/graphSchema';
 import { downloadAsJson, generateFilename } from '../../utils/fileExport';
 import { openFilePicker } from '../../utils/fileImport';
+import { clearLocalStorage } from '../../utils/storage';
 
 const FileControlsPanel = () => {
   const nodes = useGraphStore((s) => s.nodes);
@@ -10,6 +11,23 @@ const FileControlsPanel = () => {
   const setDiagramName = useGraphStore((s) => s.setDiagramName);
   const loadGraph = useGraphStore((s) => s.loadGraph);
   const triggerFit = useGraphStore((s) => s.triggerFit);
+  const triggerReset = useGraphStore((s) => s.triggerReset);
+
+  const handleNew = () => {
+    const confirmed = window.confirm(
+      'Start a new diagram? Current work will be cleared.'
+    );
+    if (confirmed) {
+      clearLocalStorage();
+      loadGraph({
+        nodes: [],
+        edges: [],
+        name: 'Untitled Diagram',
+        id: null,
+      });
+      triggerReset();
+    }
+  };
 
   const handleExport = () => {
     let name = diagramName;
@@ -55,6 +73,14 @@ const FileControlsPanel = () => {
   return (
     <div className="absolute top-20 left-4 bg-black/60 border border-cyan-500/30 rounded px-3 py-2 font-mono text-xs pointer-events-auto">
       <div className="flex items-center gap-2">
+        <button
+          onClick={handleNew}
+          className="px-2 py-1 rounded text-cyan-400 hover:text-white hover:bg-cyan-500/30 transition-all"
+          title="New diagram"
+        >
+          + NEW
+        </button>
+        <span className="text-cyan-500/30">|</span>
         <button
           onClick={handleExport}
           className="px-2 py-1 rounded text-cyan-400 hover:text-white hover:bg-cyan-500/30 transition-all"

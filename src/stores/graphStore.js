@@ -1,15 +1,49 @@
 import { create } from 'zustand';
 import { testNodes, testEdges } from '../data/testData';
+import { loadFromLocalStorage } from '../utils/storage';
+import { validateGraph } from '../utils/graphSchema';
+
+/**
+ * Get initial state from localStorage or fall back to test data
+ */
+function getInitialState() {
+  const saved = loadFromLocalStorage();
+
+  if (saved) {
+    const { valid } = validateGraph(saved);
+    if (valid) {
+      console.log('Restored diagram from localStorage');
+      return {
+        nodes: saved.nodes,
+        edges: saved.edges,
+        diagramName: saved.name || 'Untitled Diagram',
+        diagramId: saved.id || null,
+      };
+    } else {
+      console.warn('Invalid saved diagram, using default');
+    }
+  }
+
+  // Fallback to test data
+  return {
+    nodes: testNodes,
+    edges: testEdges,
+    diagramName: 'Untitled Diagram',
+    diagramId: null,
+  };
+}
+
+const initialState = getInitialState();
 
 export const useGraphStore = create((set) => ({
-  nodes: testNodes,
-  edges: testEdges,
+  nodes: initialState.nodes,
+  edges: initialState.edges,
   selectedNodeId: null,
   draggingNodeId: null,
 
   // Diagram metadata
-  diagramName: 'Untitled Diagram',
-  diagramId: null,
+  diagramName: initialState.diagramName,
+  diagramId: initialState.diagramId,
 
   setDiagramName: (name) => set({ diagramName: name }),
 

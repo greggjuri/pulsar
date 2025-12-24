@@ -7,6 +7,7 @@ import EdgeGroup from './components/canvas/EdgeGroup';
 import CameraController from './components/canvas/CameraController';
 import HudOverlay from './components/hud/HudOverlay';
 import { useGraphStore } from './stores/graphStore';
+import { useAutoSave } from './hooks/useAutoSave';
 
 // Wrapper to access store inside Canvas (R3F context)
 const SceneControls = () => {
@@ -25,6 +26,9 @@ function App() {
   const clearSelection = useGraphStore((s) => s.clearSelection);
   const triggerFit = useGraphStore((s) => s.triggerFit);
   const triggerReset = useGraphStore((s) => s.triggerReset);
+
+  // Auto-save to localStorage on changes
+  useAutoSave();
 
   // Keyboard shortcuts
   useEffect(() => {
