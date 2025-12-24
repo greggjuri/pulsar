@@ -6,13 +6,19 @@ const Node3D = ({ id, position, color, index = 0 }) => {
   const groupRef = useRef();
   const ring1Ref = useRef();
   const ring2Ref = useRef();
+  const orbit1Ref = useRef();
+  const orbit2Ref = useRef();
 
   useFrame((state, delta) => {
     const time = state.clock.elapsedTime;
 
-    // Ring rotation (delta-based for frame-rate independence)
-    if (ring1Ref.current) ring1Ref.current.rotation.z += delta * 0.5;
-    if (ring2Ref.current) ring2Ref.current.rotation.z += delta * 0.75;
+    // Orbital motion (parent groups rotate around Y axis)
+    if (orbit1Ref.current) orbit1Ref.current.rotation.y += delta * 0.5;
+    if (orbit2Ref.current) orbit2Ref.current.rotation.y += delta * 0.7;
+
+    // Self-spin (rings spin on their own Z axis)
+    if (ring1Ref.current) ring1Ref.current.rotation.z += delta * 1.0;
+    if (ring2Ref.current) ring2Ref.current.rotation.z += delta * 1.5;
 
     // Bobbing (offset by index to desync)
     if (groupRef.current) {
@@ -35,17 +41,39 @@ const Node3D = ({ id, position, color, index = 0 }) => {
         <meshBasicMaterial color={color} transparent opacity={0.2} side={BackSide} />
       </mesh>
 
-      {/* Ring 1 - horizontal */}
-      <mesh ref={ring1Ref} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[0.8, 0.02, 8, 32]} />
-        <meshBasicMaterial color={color} transparent opacity={0.6} />
-      </mesh>
+      {/* Orbit 1 - horizontal plane, rotates around Y axis */}
+      <group ref={orbit1Ref}>
+        <mesh ref={ring1Ref} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.8, 0.02, 8, 32]} />
+          <meshBasicMaterial color={color} transparent opacity={0.6} />
+        </mesh>
+        {/* Marker spheres on ring */}
+        <mesh position={[0.8, 0, 0]}>
+          <sphereGeometry args={[0.05, 8, 8]} />
+          <meshBasicMaterial color={color} />
+        </mesh>
+        <mesh position={[-0.8, 0, 0]}>
+          <sphereGeometry args={[0.05, 8, 8]} />
+          <meshBasicMaterial color={color} />
+        </mesh>
+      </group>
 
-      {/* Ring 2 - angled */}
-      <mesh ref={ring2Ref} rotation={[Math.PI / 4, Math.PI / 4, 0]}>
-        <torusGeometry args={[0.8, 0.02, 8, 32]} />
-        <meshBasicMaterial color={color} transparent opacity={0.6} />
-      </mesh>
+      {/* Orbit 2 - tilted plane, rotates around Y axis */}
+      <group ref={orbit2Ref} rotation={[Math.PI / 4, 0, 0]}>
+        <mesh ref={ring2Ref}>
+          <torusGeometry args={[0.8, 0.02, 8, 32]} />
+          <meshBasicMaterial color={color} transparent opacity={0.6} />
+        </mesh>
+        {/* Marker spheres on ring */}
+        <mesh position={[0.8, 0, 0]}>
+          <sphereGeometry args={[0.05, 8, 8]} />
+          <meshBasicMaterial color={color} />
+        </mesh>
+        <mesh position={[-0.8, 0, 0]}>
+          <sphereGeometry args={[0.05, 8, 8]} />
+          <meshBasicMaterial color={color} />
+        </mesh>
+      </group>
     </group>
   );
 };

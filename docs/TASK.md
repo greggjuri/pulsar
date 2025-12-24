@@ -17,6 +17,8 @@
 - Created Node3D component with icosahedron core, glow halo, rotating rings
 - Implemented delta-based ring rotation animations (frame-rate independent)
 - Implemented vertical bobbing motion with per-node offset
+- Refined: Added orbital motion (rings orbit around node like electrons)
+- Refined: Added marker spheres on rings to visualize rotation
 - Created NodeGroup component for rendering multiple nodes
 - Added 5 test nodes with AWS-themed colors
 - Added Grid helper for spatial reference
