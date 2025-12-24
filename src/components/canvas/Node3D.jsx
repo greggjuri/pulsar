@@ -12,9 +12,9 @@ const Node3D = ({ id, position, color, index = 0 }) => {
   useFrame((state, delta) => {
     const time = state.clock.elapsedTime;
 
-    // Orbital motion (parent groups rotate around Y axis)
-    if (orbit1Ref.current) orbit1Ref.current.rotation.y += delta * 0.5;
-    if (orbit2Ref.current) orbit2Ref.current.rotation.y += delta * 0.7;
+    // Orbital motion (parent groups)
+    if (orbit1Ref.current) orbit1Ref.current.rotation.y += delta * 0.5;  // Horizontal orbit around Y
+    if (orbit2Ref.current) orbit2Ref.current.rotation.z += delta * 0.7;  // Tilted orbit around Z
 
     // Self-spin (rings spin on their own Z axis)
     if (ring1Ref.current) ring1Ref.current.rotation.z += delta * 1.0;
