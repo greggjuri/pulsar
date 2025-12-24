@@ -19,6 +19,7 @@
 - Implemented vertical bobbing motion with per-node offset
 - Refined: Added orbital motion (rings orbit around node like electrons)
 - Refined: Added marker spheres on rings to visualize rotation
+- Refined: Two orbit planes (horizontal + 60° tilted) using nested group structure
 - Created NodeGroup component for rendering multiple nodes
 - Added 5 test nodes with AWS-themed colors
 - Added Grid helper for spatial reference
@@ -71,10 +72,13 @@
 - Generated and executed PRP-02 (node rendering)
 - Decided to use delta-based animations (DECISION-010)
 - Scene now shows 5 glowing nodes with rotating rings and bobbing animation
+- Refined orbital animation: nested group structure for consistent rotation behavior
+- Two orbit planes now working (horizontal + 60° tilted)
 
 **Decisions Made:**
 - Use Tailwind CSS v4 with @tailwindcss/vite plugin
 - Use delta-based animations in useFrame for frame-rate independence
+- Use nested groups for orbital animation (outer = static tilt, inner = animated rotation)
 
 **Next Session:**
 - Create INITIAL spec for edge rendering (animated particle connections)
