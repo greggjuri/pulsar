@@ -272,6 +272,39 @@ Use delta-based animations for all continuous motion (rotation, movement) in use
 
 ---
 
+## [DECISION-011] Zustand Store Pattern with Selectors
+
+**Date:** 2024-12-23
+**Status:** Accepted
+
+**Context:**
+With the implementation of node selection (PRP-05), we established the first Zustand store for shared state between 3D canvas and 2D HUD components. We needed to decide on the access pattern for store state.
+
+**Decision:**
+Use individual selectors for each piece of state to prevent unnecessary re-renders:
+
+```javascript
+// Good: Component only re-renders when selectedNodeId changes
+const selectedNodeId = useGraphStore((s) => s.selectedNodeId);
+const selectNode = useGraphStore((s) => s.selectNode);
+
+// Avoid: Component re-renders on ANY store change
+const { selectedNodeId, selectNode } = useGraphStore();
+```
+
+**Consequences:**
+- Better performance: components only re-render when their specific slice of state changes
+- More verbose: multiple selector calls vs one destructuring
+- Pattern should be followed for all future store usage
+- Store can grow without impacting component performance
+
+**Alternatives Considered:**
+- Full store destructuring: Simpler but causes unnecessary re-renders
+- React.memo everywhere: More complexity, band-aid solution
+- Separate stores per concern: Premature optimization, may complicate cross-store access
+
+---
+
 ## Template for New Decisions
 
 ```

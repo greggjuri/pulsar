@@ -1,20 +1,36 @@
+import { useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Grid } from '@react-three/drei';
 import { DoubleSide } from 'three';
 import NodeGroup from './components/canvas/NodeGroup';
 import EdgeGroup from './components/canvas/EdgeGroup';
 import HudOverlay from './components/hud/HudOverlay';
-import { testNodes } from './data/testNodes';
-import { testEdges } from './data/testEdges';
+import { useGraphStore } from './stores/graphStore';
 
 function App() {
+  const clearSelection = useGraphStore((s) => s.clearSelection);
+
+  // Escape key to clear selection
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        clearSelection();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [clearSelection]);
+
   return (
     <div className="w-full h-screen bg-gray-950 relative">
-      <Canvas camera={{ position: [0, 8, 15], fov: 60 }}>
+      <Canvas
+        camera={{ position: [0, 8, 15], fov: 60 }}
+        onPointerMissed={clearSelection}
+      >
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
-        <NodeGroup nodes={testNodes} />
-        <EdgeGroup edges={testEdges} nodes={testNodes} />
+        <NodeGroup />
+        <EdgeGroup />
         <Grid
           infiniteGrid
           cellSize={1}
@@ -30,7 +46,7 @@ function App() {
         <OrbitControls />
       </Canvas>
 
-      <HudOverlay nodeCount={testNodes.length} edgeCount={testEdges.length} />
+      <HudOverlay />
     </div>
   );
 }

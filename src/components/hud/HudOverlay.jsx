@@ -2,8 +2,19 @@ import HeaderPanel from './HeaderPanel';
 import ControlsPanel from './ControlsPanel';
 import StatsPanel from './StatsPanel';
 import CornerBrackets from './CornerBrackets';
+import NodeInfoPanel from './NodeInfoPanel';
+import { useGraphStore } from '../../stores/graphStore';
 
-const HudOverlay = ({ nodeCount, edgeCount }) => {
+const HudOverlay = () => {
+  const nodes = useGraphStore((s) => s.nodes);
+  const edges = useGraphStore((s) => s.edges);
+  const selectedNodeId = useGraphStore((s) => s.selectedNodeId);
+  const clearSelection = useGraphStore((s) => s.clearSelection);
+
+  const selectedNode = selectedNodeId
+    ? nodes.find((n) => n.id === selectedNodeId)
+    : null;
+
   return (
     <div className="absolute inset-0 pointer-events-none">
       {/* Scanline overlay */}
@@ -18,8 +29,13 @@ const HudOverlay = ({ nodeCount, edgeCount }) => {
       {/* HUD Panels */}
       <HeaderPanel />
       <ControlsPanel />
-      <StatsPanel nodeCount={nodeCount} edgeCount={edgeCount} />
+      <StatsPanel nodeCount={nodes.length} edgeCount={edges.length} />
       <CornerBrackets />
+
+      {/* Node Info Panel - shown when a node is selected */}
+      {selectedNode && (
+        <NodeInfoPanel node={selectedNode} onClose={clearSelection} />
+      )}
     </div>
   );
 };

@@ -1,11 +1,27 @@
 # TASK.md - Current Work Status
 
-## Current Sprint: Core Visualization
+## Current Sprint: Core Interactivity
 
 ### Active Task
-**None** - HUD enhancement complete, Phase 1 visualization foundation done!
+**None** - Node selection complete, beginning Phase 2 interactivity!
 
 ### Completed Tasks
+
+#### PRP-05: Node Selection
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-05-node-selection.md`
+- PRP: `PRPs/prp-05-node-selection.md`
+- Completed: 2024-12-23
+
+**What was done:**
+- Created Zustand graphStore with nodes, edges, selectedNodeId, and actions
+- Consolidated test data into src/data/testData.js with type field
+- Added click-to-select with click vs drag detection (5px threshold)
+- Visual feedback: highlight ring (cyan torus), brightness boost, scale pulse
+- Created NodeInfoPanel showing node label, type, ID, status
+- Background click (onPointerMissed) and Escape key clear selection
+- Updated NodeGroup and EdgeGroup to use store instead of props
+- Removed old testNodes.js and testEdges.js files
 
 #### PRP-04: HUD Enhancement
 - Status: COMPLETE
@@ -77,11 +93,9 @@
 ## Task Queue
 
 ### Up Next
-1. `initial-05-node-selection` - Click to select nodes, info panel
+1. Drag to reposition nodes
 
 ### Backlog
-- Drag to reposition nodes
-- Zustand state management
 - Import/export JSON
 - Node palette and editor
 - Post-processing effects (bloom)
@@ -91,6 +105,28 @@
 ---
 
 ## Session Notes
+
+### Session 5 - Node Selection
+**Date:** 2024-12-23
+
+**Accomplished:**
+- Generated and executed PRP-05 (node selection)
+- Created Zustand graphStore for state management
+- Implemented click-to-select with click vs drag detection
+- Added visual feedback: highlight ring, brightness boost, scale pulse
+- Created NodeInfoPanel in HUD
+- Background click and Escape key clear selection
+- Consolidated test data, removed old files
+- Phase 2: Interactivity has begun!
+
+**Decisions Made:**
+- Zustand store pattern with selectors for performance (DECISION-011)
+- Click vs drag threshold of 5px for OrbitControls compatibility
+
+**Next Session:**
+- Drag to reposition nodes
+
+---
 
 ### Session 4 - HUD Enhancement
 **Date:** 2024-12-23

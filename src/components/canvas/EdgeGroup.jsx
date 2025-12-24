@@ -1,7 +1,11 @@
 import { useMemo } from 'react';
 import Edge3D from './Edge3D';
+import { useGraphStore } from '../../stores/graphStore';
 
-const EdgeGroup = ({ edges, nodes }) => {
+const EdgeGroup = () => {
+  const nodes = useGraphStore((s) => s.nodes);
+  const edges = useGraphStore((s) => s.edges);
+
   // Create node position lookup map
   const nodeMap = useMemo(() => {
     const map = {};
