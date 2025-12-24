@@ -3,9 +3,23 @@
 ## Current Sprint: Core Interactivity
 
 ### Active Task
-**None** - Delete Node complete!
+**None** - Add Node complete!
 
 ### Completed Tasks
+
+#### PRP-11: Add Node
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-11-add-node.md`
+- PRP: `PRPs/prp-11-add-node.md`
+- Completed: 2024-12-24
+
+**What was done:**
+- Added calculateNewNodePosition helper to avoid overlap
+- Added addNode action to graphStore with auto-selection
+- Added "+ NODE" button to FileControlsPanel
+- New nodes placed to the right of existing nodes
+- New nodes auto-selected after creation
+- Auto-save triggers automatically
 
 #### PRP-10: Delete Node
 - Status: COMPLETE
@@ -181,13 +195,27 @@
 
 ## Session Notes
 
+### Session 11 - Add Node
+**Date:** 2024-12-24
+
+**Accomplished:**
+- Generated and executed PRP-11 (add node)
+- Added calculateNewNodePosition helper
+- Added addNode action with auto-selection
+- Added "+ NODE" button to FileControlsPanel
+
+**Next Session:**
+- Add/remove connections (edges)
+
+---
+
 ### Session 10 - Delete Node
 **Date:** 2024-12-24
 
 **Accomplished:**
 - Generated and executed PRP-10 (delete node)
 - Added deleteNode action with cascade edge deletion
-- Added Delete/Backspace keyboard shortcuts
+- Added Delete keyboard shortcut
 - Added "SELECTED" section to ControlsPanel with hints
 - Phase 4 (Editor) has begun!
 

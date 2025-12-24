@@ -2,6 +2,20 @@ import { create } from 'zustand';
 import { testNodes, testEdges } from '../data/testData';
 import { loadFromLocalStorage } from '../utils/storage';
 import { validateGraph } from '../utils/graphSchema';
+import { MIN_NODE_DISTANCE } from '../utils/collision';
+
+/**
+ * Calculate position for a new node, avoiding existing nodes
+ */
+function calculateNewNodePosition(nodes) {
+  if (nodes.length === 0) {
+    return [0, 0, 0];
+  }
+
+  // Place to the right of the rightmost node
+  const maxX = Math.max(...nodes.map((n) => n.position[0]));
+  return [maxX + MIN_NODE_DISTANCE + 1, 0, 0];
+}
 
 /**
  * Get initial state from localStorage or fall back to test data
@@ -67,6 +81,22 @@ export const useGraphStore = create((set) => ({
       edges: state.edges.filter((e) => e.source !== id && e.target !== id),
       selectedNodeId: state.selectedNodeId === id ? null : state.selectedNodeId,
     })),
+
+  // Add new node
+  addNode: () =>
+    set((state) => {
+      const newNode = {
+        id: `node-${Date.now()}`,
+        type: 'service',
+        label: 'New Node',
+        position: calculateNewNodePosition(state.nodes),
+        color: '#00ffff',
+      };
+      return {
+        nodes: [...state.nodes, newNode],
+        selectedNodeId: newNode.id,
+      };
+    }),
 
   // Drag actions
   setDraggingNode: (id) => set({ draggingNodeId: id }),

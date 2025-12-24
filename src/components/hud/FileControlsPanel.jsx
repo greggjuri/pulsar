@@ -12,6 +12,7 @@ const FileControlsPanel = () => {
   const loadGraph = useGraphStore((s) => s.loadGraph);
   const triggerFit = useGraphStore((s) => s.triggerFit);
   const triggerReset = useGraphStore((s) => s.triggerReset);
+  const addNode = useGraphStore((s) => s.addNode);
 
   const handleNew = () => {
     const confirmed = window.confirm(
@@ -79,6 +80,14 @@ const FileControlsPanel = () => {
           title="New diagram"
         >
           + NEW
+        </button>
+        <span className="text-cyan-500/30">|</span>
+        <button
+          onClick={addNode}
+          className="px-2 py-1 rounded text-cyan-400 hover:text-white hover:bg-cyan-500/30 transition-all"
+          title="Add node"
+        >
+          + NODE
         </button>
         <span className="text-cyan-500/30">|</span>
         <button
