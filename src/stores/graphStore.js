@@ -60,6 +60,14 @@ export const useGraphStore = create((set) => ({
   selectNode: (id) => set({ selectedNodeId: id }),
   clearSelection: () => set({ selectedNodeId: null }),
 
+  // Delete node and connected edges
+  deleteNode: (id) =>
+    set((state) => ({
+      nodes: state.nodes.filter((n) => n.id !== id),
+      edges: state.edges.filter((e) => e.source !== id && e.target !== id),
+      selectedNodeId: state.selectedNodeId === id ? null : state.selectedNodeId,
+    })),
+
   // Drag actions
   setDraggingNode: (id) => set({ draggingNodeId: id }),
   clearDraggingNode: () => set({ draggingNodeId: null }),

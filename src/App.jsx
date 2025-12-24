@@ -26,6 +26,8 @@ function App() {
   const clearSelection = useGraphStore((s) => s.clearSelection);
   const triggerFit = useGraphStore((s) => s.triggerFit);
   const triggerReset = useGraphStore((s) => s.triggerReset);
+  const selectedNodeId = useGraphStore((s) => s.selectedNodeId);
+  const deleteNode = useGraphStore((s) => s.deleteNode);
 
   // Auto-save to localStorage on changes
   useAutoSave();
@@ -44,11 +46,14 @@ function App() {
         triggerFit();
       } else if (e.key === 'r' || e.key === 'R' || e.key === 'Home') {
         triggerReset();
+      } else if ((e.key === 'Delete' || e.key === 'Backspace') && selectedNodeId) {
+        e.preventDefault(); // Prevent browser back on Backspace
+        deleteNode(selectedNodeId);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [clearSelection, triggerFit, triggerReset]);
+  }, [clearSelection, triggerFit, triggerReset, selectedNodeId, deleteNode]);
 
   return (
     <div className="w-full h-screen bg-gray-950 relative">

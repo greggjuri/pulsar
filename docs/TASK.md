@@ -3,9 +3,23 @@
 ## Current Sprint: Core Interactivity
 
 ### Active Task
-**None** - localStorage Persistence complete!
+**None** - Delete Node complete!
 
 ### Completed Tasks
+
+#### PRP-10: Delete Node
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-10-delete-node.md`
+- PRP: `PRPs/prp-10-delete-node.md`
+- Completed: 2024-12-24
+
+**What was done:**
+- Added deleteNode action to graphStore (removes node + connected edges)
+- Added Delete/Backspace keyboard shortcuts in App.jsx
+- Added conditional "SELECTED" section to ControlsPanel with DEL/ESC hints
+- Cascade delete removes all edges connected to deleted node
+- Auto-save triggers automatically after deletion
+- Phase 4 (Editor) has begun!
 
 #### PRP-09: localStorage Persistence
 - Status: COMPLETE
@@ -166,6 +180,21 @@
 ---
 
 ## Session Notes
+
+### Session 10 - Delete Node
+**Date:** 2024-12-24
+
+**Accomplished:**
+- Generated and executed PRP-10 (delete node)
+- Added deleteNode action with cascade edge deletion
+- Added Delete/Backspace keyboard shortcuts
+- Added "SELECTED" section to ControlsPanel with hints
+- Phase 4 (Editor) has begun!
+
+**Next Session:**
+- Add node functionality
+
+---
 
 ### Session 9 - localStorage Persistence
 **Date:** 2024-12-24
