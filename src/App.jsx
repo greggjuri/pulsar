@@ -1,5 +1,6 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Grid } from '@react-three/drei';
+import { DoubleSide } from 'three';
 import NodeGroup from './components/canvas/NodeGroup';
 import EdgeGroup from './components/canvas/EdgeGroup';
 import HudOverlay from './components/hud/HudOverlay';
@@ -24,6 +25,7 @@ function App() {
           sectionColor="#0d4a4a"
           fadeDistance={30}
           fadeStrength={1}
+          side={DoubleSide}
         />
         <OrbitControls />
       </Canvas>
