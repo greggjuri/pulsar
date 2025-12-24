@@ -2,6 +2,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Grid } from '@react-three/drei';
 import NodeGroup from './components/canvas/NodeGroup';
 import EdgeGroup from './components/canvas/EdgeGroup';
+import HudOverlay from './components/hud/HudOverlay';
 import { testNodes } from './data/testNodes';
 import { testEdges } from './data/testEdges';
 
@@ -27,13 +28,7 @@ function App() {
         <OrbitControls />
       </Canvas>
 
-      {/* HUD Overlay */}
-      <div className="absolute top-4 left-4 text-cyan-400 font-mono">
-        <div className="text-2xl font-bold tracking-wider" style={{ textShadow: '0 0 10px cyan' }}>
-          PULSAR
-        </div>
-        <div className="text-sm opacity-60 mt-1">SYSTEM ONLINE</div>
-      </div>
+      <HudOverlay nodeCount={testNodes.length} edgeCount={testEdges.length} />
     </div>
   );
 }
