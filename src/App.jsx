@@ -46,8 +46,7 @@ function App() {
         triggerFit();
       } else if (e.key === 'r' || e.key === 'R' || e.key === 'Home') {
         triggerReset();
-      } else if ((e.key === 'Delete' || e.key === 'Backspace') && selectedNodeId) {
-        e.preventDefault(); // Prevent browser back on Backspace
+      } else if (e.key === 'Delete' && selectedNodeId) {
         deleteNode(selectedNodeId);
       }
     };
