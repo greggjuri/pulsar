@@ -212,10 +212,15 @@ const Node3D = ({
         <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 
-      {/* Core */}
+      {/* Core - emissive for bloom */}
       <mesh>
         <icosahedronGeometry args={[0.5, 2]} />
-        <meshBasicMaterial color={displayColor} transparent opacity={coreOpacity} />
+        <meshStandardMaterial
+          color={displayColor}
+          emissive={displayColor}
+          emissiveIntensity={isSelected ? 2.5 : 1.5}
+          toneMapped={false}
+        />
       </mesh>
 
       {/* Glow */}

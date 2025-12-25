@@ -7,6 +7,18 @@
 
 ### Completed Tasks
 
+#### PRP-14a: Node Material Enhancement for Bloom
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-14a-node-material-enhancement.md`
+- PRP: `PRPs/prp-14a-node-material-enhancement.md`
+- Completed: 2025-12-24
+
+**What was done:**
+- Changed node core material from meshBasicMaterial to meshStandardMaterial
+- Added emissive properties for proper bloom on all node colors
+- Selection-aware emissiveIntensity (1.5 normal, 2.5 selected)
+- All node colors (orange, blue, pink, green) now bloom properly
+
 #### PRP-14: Bloom Post-Processing
 - Status: COMPLETE
 - INITIAL: `INITIAL/initial-14-bloom-post-processing.md`
@@ -245,7 +257,7 @@
 
 ## Session Notes
 
-### Session 14 - Bloom Post-Processing
+### Session 14 - Bloom Post-Processing + Node Material Enhancement
 **Date:** 2025-12-24
 
 **Accomplished:**
@@ -253,7 +265,9 @@
 - Installed @react-three/postprocessing package
 - Created PostProcessing.jsx with EffectComposer and Bloom effect
 - Integrated with Suspense wrapper in App.jsx
-- Nodes, edges, and particles now have sci-fi holographic glow
+- Executed PRP-14a (node material enhancement)
+- Changed node cores to meshStandardMaterial with emissive properties
+- All node colors now bloom properly (not just white/cyan)
 - Phase 5 (Polish) has officially begun!
 
 **Next Session:**
