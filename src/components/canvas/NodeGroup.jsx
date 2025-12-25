@@ -28,6 +28,7 @@ const NodeGroup = ({ onContextMenu }) => {
           id={node.id}
           position={node.position}
           color={node.color}
+          type={node.type}
           index={index}
           isSelected={selectedNodeId === node.id}
           isConnectingSource={connectingFromNodeId === node.id}

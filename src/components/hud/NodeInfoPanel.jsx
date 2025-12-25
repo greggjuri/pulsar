@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useGraphStore } from '../../stores/graphStore';
+import { AWS_SERVICES } from '../../data/awsServices';
 
 const COLOR_PRESETS = [
   { name: 'Cyan', value: '#00ffff' },
@@ -126,9 +127,25 @@ const NodeInfoPanel = ({ node, onClose }) => {
         </button>
       </div>
       <div className="text-sm space-y-1">
-        <div className="flex justify-between py-1 border-b border-gray-700">
+        <div className="flex justify-between items-center py-1 border-b border-gray-700">
           <span className="text-gray-400">Type:</span>
-          <span className="text-cyan-300">{node.type?.toUpperCase() || 'SERVICE'}</span>
+          <select
+            value={node.type || 'generic'}
+            onChange={(e) => updateNode(node.id, { type: e.target.value })}
+            className="bg-black/50 border border-cyan-500/50 text-cyan-300 px-2 py-0.5
+                       text-sm font-mono outline-none focus:border-cyan-400 rounded
+                       cursor-pointer hover:border-cyan-400 transition-colors"
+          >
+            {Object.entries(AWS_SERVICES).map(([categoryKey, category]) => (
+              <optgroup key={categoryKey} label={category.label}>
+                {category.services.map((service) => (
+                  <option key={service.key} value={service.key}>
+                    {service.name}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
         </div>
         <div className="flex justify-between py-1 border-b border-gray-700">
           <span className="text-gray-400">ID:</span>

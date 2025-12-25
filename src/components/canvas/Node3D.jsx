@@ -1,13 +1,16 @@
 import { useRef, useState, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { Html } from '@react-three/drei';
 import { BackSide } from 'three';
 import useDrag from '../../hooks/useDrag';
 import { checkCollision } from '../../utils/collision';
+import { getServiceName } from '../../data/awsServices';
 
 const Node3D = ({
   id,
   position,
   color,
+  type = 'generic',
   index = 0,
   isSelected = false,
   isConnectingSource = false,
@@ -218,6 +221,24 @@ const Node3D = ({
 
   return (
     <group position={position} ref={groupRef}>
+      {/* Service type label */}
+      <Html
+        position={[0, 1.2, 0]}
+        center
+        style={{
+          pointerEvents: 'none',
+          userSelect: 'none',
+        }}
+      >
+        <div
+          className="text-xs font-mono text-cyan-400 whitespace-nowrap px-1.5 py-0.5
+                     bg-black/60 rounded border border-cyan-500/30"
+          style={{ textShadow: '0 0 6px cyan' }}
+        >
+          {getServiceName(type)}
+        </div>
+      </Html>
+
       {/* Clickable area */}
       <mesh
         onPointerDown={handlePointerDown}

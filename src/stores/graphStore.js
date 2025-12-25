@@ -92,7 +92,7 @@ export const useGraphStore = create((set) => ({
     set((state) => {
       const newNode = {
         id: `node-${Date.now()}`,
-        type: 'service',
+        type: 'generic',
         label: 'New Node',
         position: calculateNewNodePosition(state.nodes),
         color: '#00ffff',

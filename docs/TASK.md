@@ -3,9 +3,22 @@
 ## Current Sprint: Core Interactivity
 
 ### Active Task
-**None** - Phase 5 (Polish) first feature complete!
+**None** - Phase 5 (Polish) progressing!
 
 ### Completed Tasks
+
+#### PRP-15: Node Type Dropdown & AWS Service Icons
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-15-node-type-dropdown-icons.md`
+- PRP: `PRPs/prp-15-node-type-dropdown-icons.md`
+- Completed: 2025-12-24
+
+**What was done:**
+- Created awsServices.js with 25 AWS services in 7 categories
+- Added type dropdown to NodeInfoPanel with optgroup categorization
+- Added service name label above nodes using Html component from drei
+- New nodes default to 'generic' type
+- Type persists through save/load and export/import
 
 #### PRP-14a: Node Material Enhancement for Bloom
 - Status: COMPLETE
@@ -257,6 +270,22 @@
 
 ## Session Notes
 
+### Session 15 - Node Type Dropdown & Service Labels
+**Date:** 2025-12-24
+
+**Accomplished:**
+- Executed PRP-15 (node type dropdown & AWS service icons)
+- Created awsServices.js with 25 AWS services across 7 categories
+- Added type dropdown to NodeInfoPanel with optgroup categorization
+- Added service name label above nodes using Html component from drei
+- New nodes now default to 'generic' type
+- Ring/marker visibility refinements for cyan nodes (magenta rings, white markers)
+
+**Next Session:**
+- AWS SVG icons (fast-follow PRP-15a) or additional polish effects
+
+---
+
 ### Session 14 - Bloom Post-Processing + Node Material Enhancement
 **Date:** 2025-12-24
 
@@ -271,7 +300,7 @@
 - Phase 5 (Polish) has officially begun!
 
 **Next Session:**
-- Additional polish effects (chromatic aberration, scanlines) or AWS icons
+- Node type dropdown and AWS service icons
 
 ---
 
