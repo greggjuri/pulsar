@@ -3,9 +3,23 @@
 ## Current Sprint: Core Interactivity
 
 ### Active Task
-**None** - Phase 4 (Editor) complete!
+**None** - Phase 5 (Polish) first feature complete!
 
 ### Completed Tasks
+
+#### PRP-14: Bloom Post-Processing
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-14-bloom-post-processing.md`
+- PRP: `PRPs/prp-14-bloom-post-processing.md`
+- Completed: 2025-12-24
+
+**What was done:**
+- Installed @react-three/postprocessing package
+- Created PostProcessing.jsx component with EffectComposer and Bloom
+- Integrated PostProcessing in App.jsx with Suspense wrapper
+- Configured bloom parameters: intensity 0.5, luminanceThreshold 0.2, radius 0.4
+- Nodes, edges, and particles now glow with sci-fi holographic effect
+- Phase 5 (Polish) has begun!
 
 #### PRP-13: Edit Node Properties
 - Status: COMPLETE
@@ -219,16 +233,33 @@
 ## Task Queue
 
 ### Up Next
-1. Node palette and editor (Phase 4)
+1. Additional polish effects (chromatic aberration, scanlines)
+2. AWS icon library
 
 ### Backlog
-- Post-processing effects (bloom)
-- AWS icon library
-- Node labels/text
+- Node labels/text in 3D
+- Performance optimizations
+- Mobile touch controls
 
 ---
 
 ## Session Notes
+
+### Session 14 - Bloom Post-Processing
+**Date:** 2025-12-24
+
+**Accomplished:**
+- Generated and executed PRP-14 (bloom post-processing)
+- Installed @react-three/postprocessing package
+- Created PostProcessing.jsx with EffectComposer and Bloom effect
+- Integrated with Suspense wrapper in App.jsx
+- Nodes, edges, and particles now have sci-fi holographic glow
+- Phase 5 (Polish) has officially begun!
+
+**Next Session:**
+- Additional polish effects (chromatic aberration, scanlines) or AWS icons
+
+---
 
 ### Session 13 - Edit Node Properties
 **Date:** 2025-12-24
