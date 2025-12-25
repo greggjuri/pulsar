@@ -7,6 +7,18 @@
 
 ### Completed Tasks
 
+#### PRP-17: Keyboard Shortcuts Panel
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-17-keyboard-shortcuts-panel.md`
+- PRP: `PRPs/prp-17-keyboard-shortcuts-panel.md`
+- Completed: 2025-12-25
+
+**What was done:**
+- Created shortcuts.js with centralized shortcuts configuration (4 categories)
+- Created ShortcutsPanel.jsx modal component with sci-fi styling
+- Added `?` key to toggle panel, ESC to close, backdrop click to close
+- All current shortcuts documented: F, R, Home, DEL, ESC, etc.
+
 #### PRP-15: Node Type Dropdown & AWS Service Icons
 - Status: COMPLETE
 - INITIAL: `INITIAL/initial-15-node-type-dropdown-icons.md`
@@ -269,6 +281,21 @@
 ---
 
 ## Session Notes
+
+### Session 17 - Keyboard Shortcuts Panel
+**Date:** 2025-12-25
+
+**Accomplished:**
+- Executed PRP-17 (keyboard shortcuts panel)
+- Created shortcuts.js with centralized shortcuts config
+- Created ShortcutsPanel.jsx modal with sci-fi styling
+- Press `?` to toggle panel, ESC or backdrop click to close
+- Reverted PNG export feature (html2canvas issues with WebGL)
+
+**Next Session:**
+- AWS SVG icons or additional polish effects
+
+---
 
 ### Session 15 - Node Type Dropdown & Service Labels
 **Date:** 2025-12-24

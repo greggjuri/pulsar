@@ -7,6 +7,7 @@ import EdgeGroup from './components/canvas/EdgeGroup';
 import CameraController from './components/canvas/CameraController';
 import PostProcessing from './components/canvas/PostProcessing';
 import HudOverlay from './components/hud/HudOverlay';
+import ShortcutsPanel from './components/hud/ShortcutsPanel';
 import { useGraphStore } from './stores/graphStore';
 import { useAutoSave } from './hooks/useAutoSave';
 
@@ -62,6 +63,9 @@ function App() {
 
   // Context menu state
   const [contextMenu, setContextMenu] = useState(null);
+
+  // Shortcuts panel state
+  const [showShortcuts, setShowShortcuts] = useState(false);
 
   // Auto-save to localStorage on changes
   useAutoSave();
@@ -120,7 +124,18 @@ function App() {
         return;
       }
 
+      // Toggle shortcuts panel with ?
+      if (e.key === '?') {
+        setShowShortcuts((prev) => !prev);
+        return;
+      }
+
       if (e.key === 'Escape') {
+        // Close shortcuts panel if open
+        if (showShortcuts) {
+          setShowShortcuts(false);
+          return;
+        }
         if (connectingFromNodeId) {
           cancelConnecting();
         } else {
@@ -141,7 +156,7 @@ function App() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [clearSelection, triggerFit, triggerReset, selectedNodeId, selectedEdgeId, deleteNode, deleteEdge, connectingFromNodeId, cancelConnecting, closeContextMenu]);
+  }, [clearSelection, triggerFit, triggerReset, selectedNodeId, selectedEdgeId, deleteNode, deleteEdge, connectingFromNodeId, cancelConnecting, closeContextMenu, showShortcuts]);
 
   return (
     <div className="w-full h-screen bg-gray-950 relative">
@@ -158,6 +173,11 @@ function App() {
       <HudOverlay
         contextMenu={contextMenu}
         onCloseContextMenu={closeContextMenu}
+      />
+
+      <ShortcutsPanel
+        isOpen={showShortcuts}
+        onClose={() => setShowShortcuts(false)}
       />
     </div>
   );
