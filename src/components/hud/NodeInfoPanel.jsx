@@ -145,7 +145,7 @@ const NodeInfoPanel = ({ node, onClose }) => {
               title="Click to change color"
             />
             {showColorPicker && (
-              <div className="absolute right-0 bottom-8 bg-black/90 border border-cyan-500/50
+              <div className="absolute left-0 bottom-8 bg-black/90 border border-cyan-500/50
                               rounded p-3 flex gap-3 z-10">
                 {COLOR_PRESETS.map(({ name, value }) => (
                   <button
