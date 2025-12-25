@@ -121,6 +121,19 @@ npm run test         # Run tests
 
 ## Important Notes
 
+### ⚠️ Workflow Gates — CRITICAL
+The PRP workflow has explicit approval gates that must NEVER be skipped:
+
+1. **`/generate-prp`** → Generates PRP, then STOP and present for user review
+2. **User reviews PRP** → User decides whether to proceed, modify, or reject
+3. **`/execute-prp`** → Only execute when user explicitly runs this command
+
+**Never assume approval:**
+- After `/generate-prp`, always stop and wait for explicit `/execute-prp`
+- Context recovery ("continue the task") never implies skipping approval gates
+- When resuming a session, check if the last action was PRP generation — if so, present the PRP for review
+- Do not combine generate and execute in a single action
+
 ### ⚠️ After Every Feature/Task Completion — MANDATORY
 1. **Update docs/TASK.md** - Mark task complete, add session notes
 2. **Update docs/DECISIONS.md** - Log any architectural decisions made
