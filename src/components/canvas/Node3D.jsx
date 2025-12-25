@@ -258,7 +258,12 @@ const Node3D = ({
         <group ref={marker1Ref}>
           <mesh position={[0.8, 0, 0]}>
             <sphereGeometry args={[0.08, 8, 8]} />
-            <meshBasicMaterial color={displayColor} />
+            <meshStandardMaterial
+              color="#00ffff"
+              emissive="#00ffff"
+              emissiveIntensity={2.0}
+              toneMapped={false}
+            />
           </mesh>
         </group>
       </group>
@@ -272,7 +277,12 @@ const Node3D = ({
         <group ref={marker2Ref}>
           <mesh position={[0.8, 0, 0]}>
             <sphereGeometry args={[0.08, 8, 8]} />
-            <meshBasicMaterial color={displayColor} />
+            <meshStandardMaterial
+              color="#00ffff"
+              emissive="#00ffff"
+              emissiveIntensity={2.0}
+              toneMapped={false}
+            />
           </mesh>
         </group>
       </group>
