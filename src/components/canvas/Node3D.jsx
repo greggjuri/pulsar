@@ -196,6 +196,22 @@ const Node3D = ({
   // Determine display color based on state
   const displayColor = isDragging && hasCollision ? '#ff4444' : isConnectingSource ? '#ffff00' : color;
 
+  // Check if node is cyan (for special ring/marker handling)
+  const isCyanNode = color?.toLowerCase() === '#00ffff';
+
+  // Ring color - darker shade, magenta for cyan nodes
+  const getRingColor = () => {
+    if (isCyanNode) return '#ff4f8b'; // Magenta for cyan nodes
+    const c = color?.toLowerCase();
+    if (c === '#ffffff') return '#aaaaaa'; // White → gray
+    if (c === '#00ff88') return '#00aa5a'; // Green → darker green
+    return displayColor; // Others use node color
+  };
+  const ringColor = getRingColor();
+
+  // Marker color - cyan default, white for cyan nodes
+  const markerColor = isCyanNode ? '#ffffff' : '#00ffff';
+
   // Opacity values based on selection
   const coreOpacity = isSelected ? 1.0 : 0.9;
   const glowOpacity = isSelected || isConnectingSource ? 0.4 : 0.2;
@@ -253,21 +269,14 @@ const Node3D = ({
       <group ref={orbit1Ref}>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[0.8, 0.02, 8, 32]} />
-          <meshStandardMaterial
-            color="#0a3d3d"
-            emissive="#00ffff"
-            emissiveIntensity={0.3}
-            transparent
-            opacity={0.8}
-            toneMapped={false}
-          />
+          <meshBasicMaterial color={ringColor} transparent opacity={0.6} />
         </mesh>
         <group ref={marker1Ref}>
           <mesh position={[0.8, 0, 0]}>
             <sphereGeometry args={[0.08, 8, 8]} />
             <meshStandardMaterial
-              color="#00ffff"
-              emissive="#00ffff"
+              color={markerColor}
+              emissive={markerColor}
               emissiveIntensity={2.0}
               toneMapped={false}
             />
@@ -279,21 +288,14 @@ const Node3D = ({
       <group ref={orbit2Ref}>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[0.8, 0.02, 8, 32]} />
-          <meshStandardMaterial
-            color="#0a3d3d"
-            emissive="#00ffff"
-            emissiveIntensity={0.3}
-            transparent
-            opacity={0.8}
-            toneMapped={false}
-          />
+          <meshBasicMaterial color={ringColor} transparent opacity={0.6} />
         </mesh>
         <group ref={marker2Ref}>
           <mesh position={[0.8, 0, 0]}>
             <sphereGeometry args={[0.08, 8, 8]} />
             <meshStandardMaterial
-              color="#00ffff"
-              emissive="#00ffff"
+              color={markerColor}
+              emissive={markerColor}
               emissiveIntensity={2.0}
               toneMapped={false}
             />
