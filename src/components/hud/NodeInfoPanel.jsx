@@ -145,15 +145,15 @@ const NodeInfoPanel = ({ node, onClose }) => {
               title="Click to change color"
             />
             {showColorPicker && (
-              <div className="absolute right-0 top-8 bg-black/90 border border-cyan-500/50
-                              rounded p-2 grid grid-cols-3 gap-2 z-10">
+              <div className="absolute right-0 bottom-8 bg-black/90 border border-cyan-500/50
+                              rounded p-3 flex gap-3 z-10">
                 {COLOR_PRESETS.map(({ name, value }) => (
                   <button
                     key={value}
                     onClick={() => handleColorSelect(value)}
-                    className={`w-8 h-8 rounded border transition-all cursor-pointer
+                    className={`w-10 h-10 rounded-lg border-2 transition-all cursor-pointer
                               hover:scale-110 hover:border-cyan-400
-                              ${node.color === value ? 'border-white border-2' : 'border-gray-600'}`}
+                              ${node.color === value ? 'border-white ring-2 ring-cyan-400/50' : 'border-gray-600'}`}
                     style={{ backgroundColor: value }}
                     title={name}
                   />
