@@ -196,6 +196,16 @@ const Node3D = ({
   // Determine display color based on state
   const displayColor = isDragging && hasCollision ? '#ff4444' : isConnectingSource ? '#ffff00' : color;
 
+  // Ring color - darker shade for cyan, white, and green nodes
+  const getRingColor = () => {
+    const c = color?.toLowerCase();
+    if (c === '#00ffff') return '#00cccc'; // Cyan → darker cyan
+    if (c === '#ffffff') return '#cccccc'; // White → light gray
+    if (c === '#00ff88') return '#00cc6e'; // Green → darker green
+    return displayColor; // Yellow, blue, pink/red stay same
+  };
+  const ringColor = getRingColor();
+
   // Opacity values based on selection
   const coreOpacity = isSelected ? 1.0 : 0.9;
   const glowOpacity = isSelected || isConnectingSource ? 0.4 : 0.2;
@@ -253,7 +263,7 @@ const Node3D = ({
       <group ref={orbit1Ref}>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[0.8, 0.02, 8, 32]} />
-          <meshBasicMaterial color={displayColor} transparent opacity={0.6} />
+          <meshBasicMaterial color={ringColor} transparent opacity={0.6} />
         </mesh>
         <group ref={marker1Ref}>
           <mesh position={[0.8, 0, 0]}>
@@ -272,7 +282,7 @@ const Node3D = ({
       <group ref={orbit2Ref}>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[0.8, 0.02, 8, 32]} />
-          <meshBasicMaterial color={displayColor} transparent opacity={0.6} />
+          <meshBasicMaterial color={ringColor} transparent opacity={0.6} />
         </mesh>
         <group ref={marker2Ref}>
           <mesh position={[0.8, 0, 0]}>
