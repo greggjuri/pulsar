@@ -199,9 +199,9 @@ const Node3D = ({
   // Ring color - darker shade for cyan, white, and green nodes
   const getRingColor = () => {
     const c = color?.toLowerCase();
-    if (c === '#00ffff') return '#00cccc'; // Cyan → darker cyan
-    if (c === '#ffffff') return '#cccccc'; // White → light gray
-    if (c === '#00ff88') return '#00cc6e'; // Green → darker green
+    if (c === '#00ffff') return '#00aaaa'; // Cyan → darker cyan
+    if (c === '#ffffff') return '#aaaaaa'; // White → gray
+    if (c === '#00ff88') return '#00aa5a'; // Green → darker green
     return displayColor; // Yellow, blue, pink/red stay same
   };
   const ringColor = getRingColor();
