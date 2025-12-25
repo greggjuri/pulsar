@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState, useCallback, Suspense } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Grid } from '@react-three/drei';
 import { DoubleSide } from 'three';
 import NodeGroup from './components/canvas/NodeGroup';
 import EdgeGroup from './components/canvas/EdgeGroup';
 import CameraController from './components/canvas/CameraController';
-import PostProcessing from './components/canvas/PostProcessing';
 import HudOverlay from './components/hud/HudOverlay';
 import { useGraphStore } from './stores/graphStore';
 import { useAutoSave } from './hooks/useAutoSave';
@@ -150,9 +149,6 @@ function App() {
         onPointerMissed={handlePointerMissed}
       >
         <SceneContent onContextMenu={handleContextMenu} />
-        <Suspense fallback={null}>
-          <PostProcessing />
-        </Suspense>
       </Canvas>
 
       <HudOverlay
