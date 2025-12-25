@@ -1,7 +1,7 @@
 # PRP: 05 - Node Selection
 
 > Generated from: `INITIAL/initial-05-node-selection.md`
-> Generated on: 2024-12-23
+> Generated on: 2025-12-23
 > Confidence: 8/10
 
 ## Summary

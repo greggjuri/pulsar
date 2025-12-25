@@ -1,7 +1,7 @@
 # PRP: 04 - HUD Enhancement
 
 > Generated from: `INITIAL/initial-04-hud-enhancement.md`
-> Generated on: 2024-12-23
+> Generated on: 2025-12-23
 > Confidence: 9/10
 
 ## Summary

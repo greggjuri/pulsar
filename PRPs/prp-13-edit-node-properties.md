@@ -1,7 +1,7 @@
 # PRP: 13 - Edit Node Properties
 
 > Generated from: `INITIAL/initial-13-edit-node-properties.md`
-> Generated on: 2024-12-24
+> Generated on: 2025-12-24
 > Confidence: 9/10
 
 ## Summary

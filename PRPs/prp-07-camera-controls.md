@@ -1,7 +1,7 @@
 # PRP: 07 - Camera Controls
 
 > Generated from: `INITIAL/initial-07-camera-controls.md`
-> Generated on: 2024-12-24
+> Generated on: 2025-12-24
 > Confidence: 9/10
 
 ## Summary

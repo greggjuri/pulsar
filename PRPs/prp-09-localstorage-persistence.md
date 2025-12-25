@@ -1,7 +1,7 @@
 # PRP: 09 - localStorage Persistence
 
 > Generated from: `INITIAL/initial-09-localstorage-persistence.md`
-> Generated on: 2024-12-24
+> Generated on: 2025-12-24
 > Confidence: 9/10
 
 ## Summary

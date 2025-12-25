@@ -1,7 +1,7 @@
 # PRP: 08 - JSON Export/Import
 
 > Generated from: `INITIAL/initial-08-json-export-import.md`
-> Generated on: 2024-12-24
+> Generated on: 2025-12-24
 > Confidence: 9/10
 
 ## Summary

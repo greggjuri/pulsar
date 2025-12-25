@@ -1,7 +1,7 @@
 # PRP: 12 - Context Menu & Edge Management
 
 > Generated from: `INITIAL/initial-12-context-menu-edge-management.md`
-> Generated on: 2024-12-24
+> Generated on: 2025-12-24
 > Confidence: 8/10
 
 ## Summary

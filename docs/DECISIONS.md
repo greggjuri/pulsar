@@ -17,7 +17,7 @@ Each decision follows this format:
 
 ## [DECISION-001] Use React Three Fiber over raw Three.js
 
-**Date:** 2024-12-21
+**Date:** 2025-12-21
 **Status:** Accepted
 
 **Context:**
@@ -41,7 +41,7 @@ Use @react-three/fiber as the primary 3D rendering abstraction, with @react-thre
 
 ## [DECISION-002] Zustand for State Management
 
-**Date:** 2024-12-21
+**Date:** 2025-12-21
 **Status:** Accepted
 
 **Context:**
@@ -66,7 +66,7 @@ Use Zustand for all global state management.
 
 ## [DECISION-003] Vite as Build Tool
 
-**Date:** 2024-12-21
+**Date:** 2025-12-21
 **Status:** Accepted
 
 **Context:**
@@ -90,7 +90,7 @@ Use Vite with the React + TypeScript template.
 
 ## [DECISION-004] Client-Side First Architecture
 
-**Date:** 2024-12-21
+**Date:** 2025-12-21
 **Status:** Accepted
 
 **Context:**
@@ -115,7 +115,7 @@ Start with fully client-side application. Use localStorage for persistence. Back
 
 ## [DECISION-005] Sci-Fi Aesthetic as Core Identity
 
-**Date:** 2024-12-21
+**Date:** 2025-12-21
 **Status:** Accepted
 
 **Context:**
@@ -139,7 +139,7 @@ Make the sci-fi holographic aesthetic a core feature, not just a theme. This inc
 
 ## [DECISION-006] Project Name: Pulsar
 
-**Date:** 2024-12-21
+**Date:** 2025-12-21
 **Status:** Accepted
 
 **Context:**
@@ -164,7 +164,7 @@ Name the project "Pulsar" — a rotating neutron star that emits beams of light.
 
 ## [DECISION-007] Host on AWS at pulsar.jurigregg.com
 
-**Date:** 2024-12-21
+**Date:** 2025-12-21
 **Status:** Accepted
 
 **Context:**
@@ -195,7 +195,7 @@ Host Pulsar as a subdomain `pulsar.jurigregg.com` using existing AWS infrastruct
 
 ## [DECISION-008] Strict Cost Management Policy
 
-**Date:** 2024-12-21
+**Date:** 2025-12-21
 **Status:** Accepted
 
 **Context:**
@@ -226,7 +226,7 @@ Implement strict cost management practices:
 
 ## [DECISION-009] Use Tailwind CSS v4 with Vite Plugin
 
-**Date:** 2024-12-23
+**Date:** 2025-12-23
 **Status:** Accepted
 
 **Context:**
@@ -251,7 +251,7 @@ Use Tailwind CSS v4 with the `@tailwindcss/vite` plugin instead of v3.
 
 ## [DECISION-010] Delta-Based Animations in useFrame
 
-**Date:** 2024-12-23
+**Date:** 2025-12-23
 **Status:** Accepted
 
 **Context:**
@@ -274,7 +274,7 @@ Use delta-based animations for all continuous motion (rotation, movement) in use
 
 ## [DECISION-011] Zustand Store Pattern with Selectors
 
-**Date:** 2024-12-23
+**Date:** 2025-12-23
 **Status:** Accepted
 
 **Context:**
@@ -307,7 +307,7 @@ const { selectedNodeId, selectNode } = useGraphStore();
 
 ## [DECISION-012] Horizontal XZ Drag Plane
 
-**Date:** 2024-12-24
+**Date:** 2025-12-24
 **Status:** Accepted (revised from camera-perpendicular)
 
 **Context:**

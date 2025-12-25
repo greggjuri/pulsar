@@ -1,7 +1,7 @@
 # PRP: 10 - Delete Node
 
 > Generated from: `INITIAL/initial-10-delete-node.md`
-> Generated on: 2024-12-24
+> Generated on: 2025-12-24
 > Confidence: 10/10
 
 ## Summary

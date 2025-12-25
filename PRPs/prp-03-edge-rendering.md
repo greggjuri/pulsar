@@ -1,7 +1,7 @@
 # PRP: 03 - Edge Rendering
 
 > Generated from: `INITIAL/initial-03-edge-rendering.md`
-> Generated on: 2024-12-23
+> Generated on: 2025-12-23
 > Confidence: 9/10
 
 ## Summary

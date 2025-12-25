@@ -1,7 +1,7 @@
 # PRP: 06 - Node Dragging
 
 > Generated from: `INITIAL/initial-06-node-dragging.md`
-> Generated on: 2024-12-24
+> Generated on: 2025-12-24
 > Confidence: 8/10
 
 ## Summary

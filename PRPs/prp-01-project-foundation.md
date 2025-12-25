@@ -1,7 +1,7 @@
 # PRP: 01 - Project Foundation
 
 > Generated from: `INITIAL/initial-01-project-foundation.md`
-> Generated on: 2024-12-23
+> Generated on: 2025-12-23
 > Confidence: 9/10
 
 ## Summary
