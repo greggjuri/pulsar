@@ -153,6 +153,13 @@ export const useGraphStore = create((set) => ({
     ),
   })),
 
+  // Generic node update (for label, color, etc.)
+  updateNode: (id, updates) => set((state) => ({
+    nodes: state.nodes.map((node) =>
+      node.id === id ? { ...node, ...updates } : node
+    ),
+  })),
+
   // Camera actions
   cameraAction: null, // 'fit' | 'reset' | null
   triggerFit: () => set({ cameraAction: 'fit' }),
