@@ -253,7 +253,7 @@ const Node3D = ({
       <group ref={orbit1Ref}>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[0.8, 0.02, 8, 32]} />
-          <meshBasicMaterial color={displayColor} transparent opacity={0.6} />
+          <meshBasicMaterial color="#00aaaa" transparent opacity={0.6} />
         </mesh>
         <group ref={marker1Ref}>
           <mesh position={[0.8, 0, 0]}>
@@ -272,7 +272,7 @@ const Node3D = ({
       <group ref={orbit2Ref}>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[0.8, 0.02, 8, 32]} />
-          <meshBasicMaterial color={displayColor} transparent opacity={0.6} />
+          <meshBasicMaterial color="#00aaaa" transparent opacity={0.6} />
         </mesh>
         <group ref={marker2Ref}>
           <mesh position={[0.8, 0, 0]}>
