@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { testNodes, testEdges } from '../data/testData';
-import { loadFromLocalStorage } from '../utils/storage';
+import { loadFromLocalStorage, loadDisplaySettings, saveDisplaySettings } from '../utils/storage';
 import { validateGraph } from '../utils/graphSchema';
 import { MIN_NODE_DISTANCE } from '../utils/collision';
 
@@ -48,6 +48,7 @@ function getInitialState() {
 }
 
 const initialState = getInitialState();
+const displaySettings = loadDisplaySettings();
 
 export const useGraphStore = create((set) => ({
   nodes: initialState.nodes,
@@ -56,6 +57,24 @@ export const useGraphStore = create((set) => ({
   selectedEdgeId: null,
   connectingFromNodeId: null,
   draggingNodeId: null,
+
+  // Display settings
+  showLabels: displaySettings.showLabels,
+  showIcons: displaySettings.showIcons,
+
+  toggleLabels: () =>
+    set((state) => {
+      const newValue = !state.showLabels;
+      saveDisplaySettings({ showLabels: newValue, showIcons: state.showIcons });
+      return { showLabels: newValue };
+    }),
+
+  toggleIcons: () =>
+    set((state) => {
+      const newValue = !state.showIcons;
+      saveDisplaySettings({ showLabels: state.showLabels, showIcons: newValue });
+      return { showIcons: newValue };
+    }),
 
   // Diagram metadata
   diagramName: initialState.diagramName,
@@ -165,4 +184,9 @@ export const useGraphStore = create((set) => ({
   triggerFit: () => set({ cameraAction: 'fit' }),
   triggerReset: () => set({ cameraAction: 'reset' }),
   clearCameraAction: () => set({ cameraAction: null }),
+
+  // UI state
+  showShortcuts: false,
+  setShowShortcuts: (show) => set({ showShortcuts: show }),
+  toggleShortcuts: () => set((state) => ({ showShortcuts: !state.showShortcuts })),
 }));

@@ -3,9 +3,14 @@ import { useGraphStore } from '../../stores/graphStore';
 const ControlsPanel = () => {
   const triggerFit = useGraphStore((s) => s.triggerFit);
   const triggerReset = useGraphStore((s) => s.triggerReset);
+  const toggleShortcuts = useGraphStore((s) => s.toggleShortcuts);
   const selectedNodeId = useGraphStore((s) => s.selectedNodeId);
   const selectedEdgeId = useGraphStore((s) => s.selectedEdgeId);
   const connectingFromNodeId = useGraphStore((s) => s.connectingFromNodeId);
+  const showLabels = useGraphStore((s) => s.showLabels);
+  const showIcons = useGraphStore((s) => s.showIcons);
+  const toggleLabels = useGraphStore((s) => s.toggleLabels);
+  const toggleIcons = useGraphStore((s) => s.toggleIcons);
 
   return (
     <div className="absolute top-4 right-4 bg-black/50 border border-cyan-500/30 rounded-lg p-4 backdrop-blur-sm pointer-events-auto">
@@ -73,6 +78,42 @@ const ControlsPanel = () => {
         >
           <span>↺</span>
           <span className="text-xs">Reset</span>
+        </button>
+        <button
+          onClick={toggleShortcuts}
+          className="flex-1 bg-black/50 border border-cyan-500/30 rounded p-2
+                     hover:bg-cyan-500/20 hover:border-cyan-500/50
+                     transition-colors text-cyan-400 flex items-center justify-center gap-1"
+          title="Keyboard shortcuts (?)"
+        >
+          <span>?</span>
+          <span className="text-xs">Help</span>
+        </button>
+      </div>
+
+      {/* Display toggle buttons */}
+      <div className="flex gap-2 mt-2">
+        <button
+          onClick={toggleLabels}
+          className={`flex-1 bg-black/50 border rounded p-2
+                     transition-colors flex items-center justify-center gap-1
+                     ${showLabels
+                       ? 'border-cyan-500/50 text-cyan-400 bg-cyan-500/20'
+                       : 'border-cyan-500/20 text-cyan-500/50 hover:bg-cyan-500/10'}`}
+          title={`${showLabels ? 'Hide' : 'Show'} labels (L)`}
+        >
+          <span className="text-xs font-mono">LABEL</span>
+        </button>
+        <button
+          onClick={toggleIcons}
+          className={`flex-1 bg-black/50 border rounded p-2
+                     transition-colors flex items-center justify-center gap-1
+                     ${showIcons
+                       ? 'border-cyan-500/50 text-cyan-400 bg-cyan-500/20'
+                       : 'border-cyan-500/20 text-cyan-500/50 hover:bg-cyan-500/10'}`}
+          title={`${showIcons ? 'Hide' : 'Show'} icons (I)`}
+        >
+          <span className="text-xs font-mono">ICON</span>
         </button>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { BackSide } from 'three';
 import useDrag from '../../hooks/useDrag';
 import { checkCollision } from '../../utils/collision';
 import { getServiceName } from '../../data/awsServices';
+import { getIcon } from '../../data/awsIcons';
 
 const Node3D = ({
   id,
@@ -20,6 +21,8 @@ const Node3D = ({
   onDrag,
   onDragEnd,
   allNodes = [],
+  showLabels = true,
+  showIcons = true,
 }) => {
   const groupRef = useRef();
   const orbit1Ref = useRef();
@@ -219,23 +222,46 @@ const Node3D = ({
   const coreOpacity = isSelected ? 1.0 : 0.9;
   const glowOpacity = isSelected || isConnectingSource ? 0.4 : 0.2;
 
+  // Get icon for service type
+  const iconSrc = getIcon(type);
+
+  
   return (
     <group position={position} ref={groupRef}>
-      {/* Service type label */}
+      {/* Service icon and label */}
       <Html
-        position={[0, 1.2, 0]}
+        position={[0, 1.4, 0]}
         center
+        zIndexRange={[1, 0]}
         style={{
           pointerEvents: 'none',
           userSelect: 'none',
         }}
       >
-        <div
-          className="text-xs font-mono text-cyan-400 whitespace-nowrap px-1.5 py-0.5
-                     bg-black/60 rounded border border-cyan-500/30"
-          style={{ textShadow: '0 0 6px cyan' }}
-        >
-          {getServiceName(type)}
+        <div className="flex flex-col items-center gap-0.5 relative">
+          {/* Force re-render when display settings change - drei Html component bug workaround */}
+          <div className="h-0 overflow-visible text-[8px] text-transparent select-none" aria-hidden="true">{String(showLabels)}{String(showIcons)}</div>
+          {iconSrc && (
+            <img
+              src={iconSrc}
+              alt={getServiceName(type)}
+              className="w-8 h-8"
+              style={{
+                filter: 'drop-shadow(0 0 4px rgba(0, 255, 255, 0.5))',
+                display: showIcons ? 'block' : 'none'
+              }}
+            />
+          )}
+          <div
+            className="text-xs font-mono text-cyan-400 whitespace-nowrap px-1.5 py-0.5
+                       bg-black/60 rounded border border-cyan-500/30"
+            style={{
+              textShadow: '0 0 6px cyan',
+              display: showLabels ? 'block' : 'none'
+            }}
+          >
+            {getServiceName(type)}
+          </div>
         </div>
       </Html>
 

@@ -1,4 +1,5 @@
 const STORAGE_KEY = 'pulsar-diagram-autosave';
+const SETTINGS_KEY = 'pulsar-display-settings';
 
 /**
  * Check if localStorage is available
@@ -56,5 +57,35 @@ export function clearLocalStorage() {
   } catch (e) {
     console.warn('Failed to clear localStorage:', e);
     return false;
+  }
+}
+
+/**
+ * Save display settings to localStorage
+ * @param {Object} settings - { showLabels, showIcons }
+ * @returns {boolean} Success status
+ */
+export function saveDisplaySettings(settings) {
+  try {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    return true;
+  } catch (e) {
+    console.warn('Failed to save display settings:', e);
+    return false;
+  }
+}
+
+/**
+ * Load display settings from localStorage
+ * @returns {Object} Settings object with defaults
+ */
+export function loadDisplaySettings() {
+  try {
+    const data = localStorage.getItem(SETTINGS_KEY);
+    if (!data) return { showLabels: true, showIcons: true };
+    return JSON.parse(data);
+  } catch (e) {
+    console.warn('Failed to load display settings:', e);
+    return { showLabels: true, showIcons: true };
   }
 }

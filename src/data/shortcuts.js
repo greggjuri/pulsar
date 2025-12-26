@@ -29,6 +29,13 @@ export const SHORTCUTS = [
     ],
   },
   {
+    category: 'Display',
+    shortcuts: [
+      { keys: ['L'], description: 'Toggle node labels' },
+      { keys: ['I'], description: 'Toggle node icons' },
+    ],
+  },
+  {
     category: 'Help',
     shortcuts: [
       { keys: ['?'], description: 'Toggle this panel' },

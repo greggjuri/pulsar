@@ -60,12 +60,14 @@ function App() {
   const deleteEdge = useGraphStore((s) => s.deleteEdge);
   const startConnecting = useGraphStore((s) => s.startConnecting);
   const cancelConnecting = useGraphStore((s) => s.cancelConnecting);
+  const showShortcuts = useGraphStore((s) => s.showShortcuts);
+  const setShowShortcuts = useGraphStore((s) => s.setShowShortcuts);
+  const toggleShortcuts = useGraphStore((s) => s.toggleShortcuts);
+  const toggleLabels = useGraphStore((s) => s.toggleLabels);
+  const toggleIcons = useGraphStore((s) => s.toggleIcons);
 
   // Context menu state
   const [contextMenu, setContextMenu] = useState(null);
-
-  // Shortcuts panel state
-  const [showShortcuts, setShowShortcuts] = useState(false);
 
   // Auto-save to localStorage on changes
   useAutoSave();
@@ -126,7 +128,7 @@ function App() {
 
       // Toggle shortcuts panel with ?
       if (e.key === '?') {
-        setShowShortcuts((prev) => !prev);
+        toggleShortcuts();
         return;
       }
 
@@ -152,11 +154,15 @@ function App() {
         } else if (selectedEdgeId) {
           deleteEdge(selectedEdgeId);
         }
+      } else if (e.key === 'l' || e.key === 'L') {
+        toggleLabels();
+      } else if (e.key === 'i' || e.key === 'I') {
+        toggleIcons();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [clearSelection, triggerFit, triggerReset, selectedNodeId, selectedEdgeId, deleteNode, deleteEdge, connectingFromNodeId, cancelConnecting, closeContextMenu, showShortcuts]);
+  }, [clearSelection, triggerFit, triggerReset, selectedNodeId, selectedEdgeId, deleteNode, deleteEdge, connectingFromNodeId, cancelConnecting, closeContextMenu, showShortcuts, toggleShortcuts, setShowShortcuts, toggleLabels, toggleIcons]);
 
   return (
     <div className="w-full h-screen bg-gray-950 relative">

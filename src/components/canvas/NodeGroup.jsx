@@ -10,6 +10,8 @@ const NodeGroup = ({ onContextMenu }) => {
   const setDraggingNode = useGraphStore((s) => s.setDraggingNode);
   const clearDraggingNode = useGraphStore((s) => s.clearDraggingNode);
   const updateNodePosition = useGraphStore((s) => s.updateNodePosition);
+  const showLabels = useGraphStore((s) => s.showLabels);
+  const showIcons = useGraphStore((s) => s.showIcons);
 
   const handleNodeSelect = (nodeId) => {
     // If in connecting mode, create edge instead of selecting
@@ -38,6 +40,8 @@ const NodeGroup = ({ onContextMenu }) => {
           onDrag={(pos) => updateNodePosition(node.id, pos)}
           onDragEnd={() => clearDraggingNode()}
           allNodes={nodes}
+          showLabels={showLabels}
+          showIcons={showIcons}
         />
       ))}
     </group>

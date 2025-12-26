@@ -334,6 +334,44 @@ Implementation uses Three.js `Plane` with normal `(0, 1, 0)` at the node's Y lev
 
 ---
 
+## [DECISION-013] drei Html Component Reactivity Workaround
+
+**Date:** 2025-12-26
+**Status:** Accepted
+
+**Context:**
+When implementing visibility toggles for node labels and icons, we discovered that the `@react-three/drei` `Html` component doesn't properly re-render when Zustand store values change, even when those values are read inside the component. This caused toggling labels to also hide icons.
+
+**Decision:**
+Use a workaround: add an invisible div inside the Html component that references both reactive state values, forcing React to properly track dependencies and trigger re-renders.
+
+```jsx
+{/* Force re-render when display settings change - drei Html component bug workaround */}
+<div className="h-0 overflow-visible text-[8px] text-transparent select-none" aria-hidden="true">
+  {String(showLabels)}{String(showIcons)}
+</div>
+```
+
+Key requirements discovered through testing:
+- Must be in normal document flow (not `absolute` positioned)
+- Must be at least 8px font size
+- Must not use `display: none` or `opacity: 0`
+- Must reference both state values in rendered text content
+
+**Consequences:**
+- Slightly hacky but reliable solution
+- Pattern to follow if future Html-based UI has reactivity issues
+- May be fixed in future drei versions
+- No visual impact (invisible but technically rendered)
+
+**Alternatives Considered:**
+- Using `key` prop to force remount: Didn't work reliably
+- Separate Html components per element: Same issue
+- Moving state to parent and passing as props: Didn't solve the core issue
+- CSS `display: none/block` toggle: Same reactivity issue
+
+---
+
 ## Template for New Decisions
 
 ```

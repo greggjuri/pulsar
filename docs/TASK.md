@@ -7,6 +7,34 @@
 
 ### Completed Tasks
 
+#### PRP-19: Label and Icon Visibility Toggles
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-19-visibility-toggles.md`
+- PRP: `PRPs/prp-19-visibility-toggles.md`
+- Completed: 2025-12-26
+
+**What was done:**
+- Added showLabels/showIcons state to graphStore with localStorage persistence
+- Added toggle buttons to ControlsPanel (ABC for labels, icon for icons)
+- Toggle buttons show active/inactive visual state
+- Node3D conditionally renders icon and/or label based on store state
+- Added L key to toggle labels, I key to toggle icons
+- Added Display category to shortcuts panel with L and I entries
+- Settings persist across page refresh
+
+#### PRP-18: AWS Service Icons
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-18-aws-service-icons.md`
+- PRP: `PRPs/prp-18-aws-service-icons.md`
+- Completed: 2025-12-26
+
+**What was done:**
+- Created awsIcons.js with imports for all 24 AWS service icons
+- Official AWS Architecture Icons (64x64 SVG) displayed above nodes
+- Icons render with cyan glow effect to match sci-fi aesthetic
+- Generic nodes show label only (no icon)
+- Icons don't interfere with node selection/dragging (pointerEvents: none)
+
 #### PRP-17: Keyboard Shortcuts Panel
 - Status: COMPLETE
 - INITIAL: `INITIAL/initial-17-keyboard-shortcuts-panel.md`
@@ -271,7 +299,7 @@
 
 ### Up Next
 1. Additional polish effects (chromatic aberration, scanlines)
-2. AWS icon library
+2. ~~AWS icon library~~ ✅ DONE
 
 ### Backlog
 - Node labels/text in 3D
@@ -281,6 +309,28 @@
 ---
 
 ## Session Notes
+
+### Session 18 - AWS Service Icons + Visibility Toggles
+**Date:** 2025-12-26
+
+**Accomplished:**
+- Executed PRP-18 (AWS service icons)
+- Created awsIcons.js registry mapping 24 service types to official AWS SVG icons
+- Updated Node3D to display icon + label stack above each node
+- Icons have cyan glow effect (drop-shadow) for sci-fi aesthetic
+- Generic nodes show label only, no icon
+- Fixed shortcuts panel z-index issue (node labels were overlaying panel)
+- Added `?` Help button to ControlsPanel, moved showShortcuts state to Zustand store
+- Executed PRP-19 (visibility toggles)
+- Added showLabels/showIcons state to graphStore with localStorage persistence
+- Added toggle buttons to ControlsPanel with active/inactive visual states
+- Added L and I keyboard shortcuts for quick toggling
+- Added Display category to shortcuts panel
+
+**Next Session:**
+- Additional polish effects or other improvements
+
+---
 
 ### Session 17 - Keyboard Shortcuts Panel
 **Date:** 2025-12-25
