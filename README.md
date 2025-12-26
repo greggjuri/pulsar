@@ -58,7 +58,7 @@ Pulsar is a web-based tool for creating and visualizing AWS architecture diagram
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/pulsar.git
+git clone https://github.com/greggjuri/pulsar.git
 cd pulsar
 
 # Install dependencies
