@@ -8,6 +8,7 @@ export function HeaderBar() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const isAuthLoading = useAuthStore((s) => s.isLoading);
   const userInfo = useAuthStore((s) => s.userInfo);
+  const logout = useAuthStore((s) => s.logout);
 
   const isCloudLoading = useCloudStore((s) => s.isLoading);
   const hasUnsavedChanges = useCloudStore((s) => s.hasUnsavedChanges);
@@ -69,6 +70,11 @@ export function HeaderBar() {
       nodes,
       edges,
     });
+  };
+
+  const handleSignOut = () => {
+    logout(); // Clear local auth state first
+    window.location.href = getLogoutUrl(); // Then redirect to Cognito logout
   };
 
   return (
@@ -153,12 +159,12 @@ export function HeaderBar() {
             <span className="text-cyan-500/30">|</span>
 
             {/* Sign Out */}
-            <a
-              href={getLogoutUrl()}
+            <button
+              onClick={handleSignOut}
               className="font-mono text-sm text-cyan-500 hover:text-cyan-300 transition-colors"
             >
               Sign Out
-            </a>
+            </button>
           </>
         ) : (
           <>
