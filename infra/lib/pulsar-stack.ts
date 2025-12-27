@@ -7,6 +7,12 @@ import * as route53 from 'aws-cdk-lib/aws-route53';
 import * as targets from 'aws-cdk-lib/aws-route53-targets';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
+import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as apigatewayv2 from 'aws-cdk-lib/aws-apigatewayv2';
+import { HttpJwtAuthorizer } from 'aws-cdk-lib/aws-apigatewayv2-authorizers';
+import { HttpLambdaIntegration } from 'aws-cdk-lib/aws-apigatewayv2-integrations';
+import * as path from 'path';
 import { config } from './config';
 
 export class PulsarStack extends cdk.Stack {
@@ -136,6 +142,109 @@ export class PulsarStack extends cdk.Stack {
       },
     });
 
+    // =====================
+    // Backend API Resources
+    // =====================
+
+    // DynamoDB table for diagram metadata
+    const diagramsTable = new dynamodb.Table(this, 'DiagramsTable', {
+      tableName: 'pulsar-diagrams',
+      partitionKey: { name: 'PK', type: dynamodb.AttributeType.STRING },
+      sortKey: { name: 'SK', type: dynamodb.AttributeType.STRING },
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
+      pointInTimeRecoverySpecification: {
+        pointInTimeRecoveryEnabled: true,
+      },
+    });
+
+    // S3 bucket for diagram content
+    const diagramsBucket = new s3.Bucket(this, 'DiagramsBucket', {
+      bucketName: `pulsar-diagrams-${this.account}`,
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      encryption: s3.BucketEncryption.S3_MANAGED,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
+      lifecycleRules: [
+        {
+          abortIncompleteMultipartUploadAfter: cdk.Duration.days(1),
+        },
+      ],
+    });
+
+    // Lambda function for API handlers
+    const apiHandler = new lambda.Function(this, 'ApiHandler', {
+      functionName: 'pulsar-api',
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: 'index.handler',
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda/api')),
+      timeout: cdk.Duration.seconds(30),
+      memorySize: 256,
+      environment: {
+        DIAGRAMS_TABLE: diagramsTable.tableName,
+        DIAGRAMS_BUCKET: diagramsBucket.bucketName,
+      },
+    });
+
+    // Grant Lambda permissions
+    diagramsTable.grantReadWriteData(apiHandler);
+    diagramsBucket.grantReadWrite(apiHandler);
+
+    // HTTP API Gateway
+    const httpApi = new apigatewayv2.HttpApi(this, 'HttpApi', {
+      apiName: 'pulsar-api',
+      corsPreflight: {
+        allowOrigins: [
+          `https://${config.domainName}`,
+          'http://localhost:5173',
+          'http://localhost:5174',
+          'http://localhost:5175',
+        ],
+        allowMethods: [
+          apigatewayv2.CorsHttpMethod.GET,
+          apigatewayv2.CorsHttpMethod.POST,
+          apigatewayv2.CorsHttpMethod.PUT,
+          apigatewayv2.CorsHttpMethod.DELETE,
+          apigatewayv2.CorsHttpMethod.OPTIONS,
+        ],
+        allowHeaders: ['Content-Type', 'Authorization'],
+        allowCredentials: true,
+      },
+    });
+
+    // JWT Authorizer using Cognito User Pool
+    const authorizer = new HttpJwtAuthorizer(
+      'CognitoAuthorizer',
+      `https://cognito-idp.${config.region}.amazonaws.com/${userPool.userPoolId}`,
+      {
+        jwtAudience: [userPoolClient.userPoolClientId],
+      }
+    );
+
+    // Lambda integration
+    const lambdaIntegration = new HttpLambdaIntegration(
+      'LambdaIntegration',
+      apiHandler
+    );
+
+    // API routes
+    httpApi.addRoutes({
+      path: '/diagrams',
+      methods: [apigatewayv2.HttpMethod.POST, apigatewayv2.HttpMethod.GET],
+      integration: lambdaIntegration,
+      authorizer,
+    });
+
+    httpApi.addRoutes({
+      path: '/diagrams/{id}',
+      methods: [
+        apigatewayv2.HttpMethod.GET,
+        apigatewayv2.HttpMethod.PUT,
+        apigatewayv2.HttpMethod.DELETE,
+      ],
+      integration: lambdaIntegration,
+      authorizer,
+    });
+
     // Stack outputs
     new cdk.CfnOutput(this, 'BucketName', {
       value: siteBucket.bucketName,
@@ -170,6 +279,21 @@ export class PulsarStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'CognitoDomain', {
       value: `${userPoolDomain.domainName}.auth.${config.region}.amazoncognito.com`,
       description: 'Cognito Hosted UI domain',
+    });
+
+    new cdk.CfnOutput(this, 'ApiUrl', {
+      value: httpApi.apiEndpoint,
+      description: 'HTTP API Gateway endpoint URL',
+    });
+
+    new cdk.CfnOutput(this, 'DiagramsTableName', {
+      value: diagramsTable.tableName,
+      description: 'DynamoDB table for diagram metadata',
+    });
+
+    new cdk.CfnOutput(this, 'DiagramsBucketName', {
+      value: diagramsBucket.bucketName,
+      description: 'S3 bucket for diagram content',
     });
   }
 }

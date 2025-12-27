@@ -51,11 +51,18 @@ coverage/
 .nyc_output/
 
 # AWS CDK
+cdk.out/
+cdk.context.json
 infra/cdk.out/
 infra/node_modules/
 infra/*.js
 infra/*.d.ts
 !infra/jest.config.js
+scripts/cdk.out/
+scripts/cdk.context.json
+
+# Lambda
+lambda/*/node_modules/
 
 # Misc
 .cache/

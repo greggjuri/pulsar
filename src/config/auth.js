@@ -9,4 +9,5 @@ export const authConfig = {
   cognitoDomain: 'pulsar-auth.auth.us-east-1.amazoncognito.com',
   redirectUri: window.location.origin + '/',
   scope: 'email openid profile',
+  apiUrl: 'https://np3nbnrpc5.execute-api.us-east-1.amazonaws.com',
 };

@@ -5,6 +5,26 @@
 ### Active Task
 **None** - Phase 6 (Backend Integration) ongoing!
 
+#### PRP-23: Backend API for Diagrams
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-23-backend-api.md`
+- PRP: `PRPs/prp-23-backend-api.md`
+- Completed: 2025-12-27
+
+**What was done:**
+- Created Lambda function with 5 CRUD handlers (create, list, get, update, delete)
+- Created DynamoDB table `pulsar-diagrams` for metadata
+- Created S3 bucket `pulsar-diagrams-490004610151` for content
+- Created HTTP API Gateway with JWT authorizer
+- Added routes: POST/GET /diagrams, GET/PUT/DELETE /diagrams/{id}
+- CORS configured for production and localhost
+- Updated `src/config/auth.js` with API URL
+
+**Stack Outputs:**
+- API URL: `https://np3nbnrpc5.execute-api.us-east-1.amazonaws.com`
+- DynamoDB Table: `pulsar-diagrams`
+- S3 Bucket: `pulsar-diagrams-490004610151`
+
 #### PRP-22: Cognito Authentication (Admin-Only)
 - Status: COMPLETE
 - INITIAL: `INITIAL/initial-22-cognito-auth.md`
@@ -367,6 +387,37 @@
 ---
 
 ## Session Notes
+
+### Session 22 - Backend API for Diagrams
+**Date:** 2025-12-27
+
+**Accomplished:**
+- Executed PRP-23 (backend API)
+- Created Lambda function with CRUD handlers in `lambda/api/`
+- Created DynamoDB table `pulsar-diagrams` (PK/SK design)
+- Created S3 bucket `pulsar-diagrams-490004610151` for content
+- Created HTTP API Gateway with JWT authorizer
+- Added routes for all CRUD operations
+- CORS configured for production and localhost
+- Updated `src/config/auth.js` with API URL
+- Deployed and verified 401 for unauthorized requests
+
+**API Endpoints:**
+- `POST /diagrams` - Create diagram
+- `GET /diagrams` - List user's diagrams
+- `GET /diagrams/{id}` - Get diagram content
+- `PUT /diagrams/{id}` - Update diagram
+- `DELETE /diagrams/{id}` - Delete diagram
+
+**Stack Outputs:**
+- API URL: `https://np3nbnrpc5.execute-api.us-east-1.amazonaws.com`
+- DynamoDB Table: `pulsar-diagrams`
+- S3 Bucket: `pulsar-diagrams-490004610151`
+
+**Next Session:**
+- Frontend integration (INITIAL-24) to save/load diagrams from cloud
+
+---
 
 ### Session 21 - Cognito Authentication
 **Date:** 2025-12-27
