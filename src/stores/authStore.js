@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { decodeToken, isTokenExpired } from '../utils/auth';
+import { useCloudStore } from './cloudStore';
 
 const STORAGE_KEY = 'pulsar-auth';
 
@@ -65,6 +66,7 @@ export const useAuthStore = create((set, get) => ({
 
   logout: () => {
     localStorage.removeItem(STORAGE_KEY);
+    useCloudStore.getState().clear(); // Clear cloud state on logout
     set({
       isAuthenticated: false,
       accessToken: null,

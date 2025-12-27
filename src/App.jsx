@@ -9,9 +9,13 @@ import PostProcessing from './components/canvas/PostProcessing';
 import HudOverlay from './components/hud/HudOverlay';
 import ShortcutsPanel from './components/hud/ShortcutsPanel';
 import AuthPanel from './components/hud/AuthPanel';
+import { ModeIndicator } from './components/hud/ModeIndicator';
+import { CloudDiagramsPanel } from './components/hud/CloudDiagramsPanel';
+import { SaveCloudButton } from './components/hud/SaveCloudButton';
 import { useGraphStore } from './stores/graphStore';
 import { useAutoSave } from './hooks/useAutoSave';
 import { useAuthCallback } from './hooks/useAuthCallback';
+import { useTrackChanges } from './hooks/useTrackChanges';
 
 // Wrapper to access store inside Canvas (R3F context)
 const SceneControls = () => {
@@ -76,6 +80,9 @@ function App() {
 
   // Handle OAuth callback on mount
   useAuthCallback();
+
+  // Track changes for unsaved indicator
+  useTrackChanges();
 
   const closeContextMenu = useCallback(() => {
     setContextMenu(null);
@@ -192,6 +199,9 @@ function App() {
       />
 
       <AuthPanel />
+      <ModeIndicator />
+      <CloudDiagramsPanel />
+      <SaveCloudButton />
     </div>
   );
 }
