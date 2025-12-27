@@ -14,7 +14,6 @@ export function CloudDiagramsPanel() {
   const fetchDiagrams = useCloudStore((s) => s.fetchDiagrams);
   const loadDiagram = useCloudStore((s) => s.loadDiagram);
   const deleteDiagram = useCloudStore((s) => s.deleteDiagram);
-  const setCurrentCloudId = useCloudStore((s) => s.setCurrentCloudId);
 
   const loadGraph = useGraphStore((s) => s.loadGraph);
 
@@ -65,17 +64,6 @@ export function CloudDiagramsPanel() {
       await deleteDiagram(confirmDelete.id);
       setConfirmDelete(null);
     }
-  };
-
-  const handleNewDiagram = () => {
-    // Clear current cloud ID and create fresh diagram
-    setCurrentCloudId(null);
-    loadGraph({
-      nodes: [],
-      edges: [],
-      name: 'Untitled',
-      id: null,
-    });
   };
 
   return (
@@ -150,18 +138,6 @@ export function CloudDiagramsPanel() {
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* New Diagram Button */}
-          <div className="px-3 py-2 border-t border-cyan-500/20">
-            <button
-              onClick={handleNewDiagram}
-              className="w-full py-1.5 font-mono text-xs text-cyan-500
-                         border border-cyan-500/30 hover:bg-cyan-500/10
-                         transition-colors"
-            >
-              + NEW DIAGRAM
-            </button>
           </div>
         </div>
       </div>
