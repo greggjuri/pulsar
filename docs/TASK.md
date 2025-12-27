@@ -5,6 +5,23 @@
 ### Active Task
 **None** - Phase 5 (Polish) progressing!
 
+#### PRP-20: AWS-Aligned Node Color Presets
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-20-aws-color-presets.md`
+- PRP: `PRPs/prp-20-aws-color-presets.md`
+- Completed: 2025-12-27
+
+**What was done:**
+- Updated COLOR_PRESETS in NodeInfoPanel.jsx with 7 AWS-aligned colors
+- Orange (#FF9900) - Compute: Lambda, EC2, ECS
+- Green (#7AA116) - Storage: S3, EFS, EBS
+- Blue (#527FFF) - Database: DynamoDB, RDS, Aurora
+- Purple (#8C4FFF) - Networking: API Gateway, CloudFront, VPC
+- Pink (#E7157B) - Integration: SQS, SNS, EventBridge
+- Red (#DD344C) - Security: Cognito, IAM, WAF
+- Cyan (#00FFFF) - Generic / Custom
+- Tooltips show AWS category and example services on hover
+
 ### Completed Tasks
 
 #### PRP-19: Label and Icon Visibility Toggles
@@ -309,6 +326,20 @@
 ---
 
 ## Session Notes
+
+### Session 19 - AWS-Aligned Color Presets
+**Date:** 2025-12-27
+
+**Accomplished:**
+- Executed PRP-20 (AWS-aligned color presets)
+- Replaced 6 color presets with 7 AWS category-aligned colors
+- Colors match official AWS Architecture Icon palette
+- Tooltips now show AWS category and example services
+
+**Next Session:**
+- Additional polish or new features
+
+---
 
 ### Session 18 - AWS Service Icons + Visibility Toggles
 **Date:** 2025-12-26

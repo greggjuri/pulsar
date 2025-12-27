@@ -2,13 +2,15 @@ import { useState, useEffect, useRef } from 'react';
 import { useGraphStore } from '../../stores/graphStore';
 import { AWS_SERVICES } from '../../data/awsServices';
 
+// AWS-aligned color presets matching official AWS Architecture Icon categories
 const COLOR_PRESETS = [
-  { name: 'Cyan', value: '#00ffff' },
-  { name: 'Orange', value: '#ff9900' },
-  { name: 'Magenta', value: '#ff4f8b' },
-  { name: 'Blue', value: '#3b48cc' },
-  { name: 'Green', value: '#00ff88' },
-  { name: 'White', value: '#ffffff' },
+  { name: 'Compute (Lambda, EC2, ECS)', value: '#FF9900' },
+  { name: 'Storage (S3, EFS, EBS)', value: '#7AA116' },
+  { name: 'Database (DynamoDB, RDS, Aurora)', value: '#527FFF' },
+  { name: 'Networking (API Gateway, CloudFront, VPC)', value: '#8C4FFF' },
+  { name: 'Integration (SQS, SNS, EventBridge)', value: '#E7157B' },
+  { name: 'Security (Cognito, IAM, WAF)', value: '#DD344C' },
+  { name: 'Generic / Custom', value: '#00FFFF' },
 ];
 
 const NodeInfoPanel = ({ node, onClose }) => {
