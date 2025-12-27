@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+# Get script directory and project root (works from any location)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
 # Configuration
 ACCOUNT_ID="490004610151"
 BUCKET_NAME="pulsar-static-${ACCOUNT_ID}"
@@ -12,10 +16,10 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 echo -e "${CYAN}Building frontend...${NC}"
-npm run build
+npm run build --prefix "${PROJECT_ROOT}"
 
 echo -e "${CYAN}Deploying infrastructure...${NC}"
-cd infra && npx cdk deploy --require-approval never && cd ..
+npx cdk deploy --require-approval never --app "npx ts-node --prefer-ts-exts ${PROJECT_ROOT}/infra/bin/pulsar.ts"
 
 # Get distribution ID from stack outputs
 echo -e "${CYAN}Getting CloudFront distribution ID...${NC}"
@@ -27,7 +31,7 @@ DISTRIBUTION_ID=$(aws cloudformation describe-stacks \
 echo "Distribution ID: ${DISTRIBUTION_ID}"
 
 echo -e "${CYAN}Syncing to S3...${NC}"
-aws s3 sync dist s3://${BUCKET_NAME} --delete
+aws s3 sync "${PROJECT_ROOT}/dist" s3://${BUCKET_NAME} --delete
 
 echo -e "${CYAN}Invalidating CloudFront cache...${NC}"
 aws cloudfront create-invalidation \
