@@ -1,5 +1,4 @@
 import ControlsPanel from './ControlsPanel';
-import StatsPanel from './StatsPanel';
 import CornerBrackets from './CornerBrackets';
 import NodeInfoPanel from './NodeInfoPanel';
 import EdgeInfoPanel from './EdgeInfoPanel';
@@ -44,7 +43,6 @@ const HudOverlay = ({ contextMenu, onCloseContextMenu }) => {
       {/* HUD Panels */}
       <FileControlsPanel />
       <ControlsPanel />
-      <StatsPanel nodeCount={nodes.length} edgeCount={edges.length} />
       <CornerBrackets />
 
       {/* Node Info Panel - shown when a node is selected */}
