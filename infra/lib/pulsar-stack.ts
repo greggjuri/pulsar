@@ -6,6 +6,7 @@ import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as route53 from 'aws-cdk-lib/aws-route53';
 import * as targets from 'aws-cdk-lib/aws-route53-targets';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
+import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { config } from './config';
 
 export class PulsarStack extends cdk.Stack {
@@ -69,6 +70,72 @@ export class PulsarStack extends cdk.Stack {
       ),
     });
 
+    // =====================
+    // Cognito Authentication
+    // =====================
+
+    // Cognito User Pool (admin-only, no self-registration)
+    const userPool = new cognito.UserPool(this, 'UserPool', {
+      userPoolName: 'pulsar-users',
+      selfSignUpEnabled: false,
+      signInAliases: {
+        email: true,
+        username: false,
+      },
+      autoVerify: {
+        email: false,
+      },
+      passwordPolicy: {
+        minLength: 8,
+        requireLowercase: true,
+        requireUppercase: true,
+        requireDigits: true,
+        requireSymbols: true,
+      },
+      accountRecovery: cognito.AccountRecovery.NONE,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
+    });
+
+    // App Client for Hosted UI (SPA - no client secret)
+    const userPoolClient = userPool.addClient('WebClient', {
+      userPoolClientName: 'pulsar-web',
+      authFlows: {
+        userPassword: true,
+        userSrp: true,
+      },
+      oAuth: {
+        flows: {
+          authorizationCodeGrant: true,
+        },
+        scopes: [
+          cognito.OAuthScope.EMAIL,
+          cognito.OAuthScope.OPENID,
+          cognito.OAuthScope.PROFILE,
+        ],
+        callbackUrls: [
+          `https://${config.domainName}/`,
+          'http://localhost:5173/',
+          'http://localhost:5174/',
+          'http://localhost:5175/',
+        ],
+        logoutUrls: [
+          `https://${config.domainName}/`,
+          'http://localhost:5173/',
+          'http://localhost:5174/',
+          'http://localhost:5175/',
+        ],
+      },
+      preventUserExistenceErrors: true,
+      generateSecret: false,
+    });
+
+    // Cognito Domain for Hosted UI
+    const userPoolDomain = userPool.addDomain('Domain', {
+      cognitoDomain: {
+        domainPrefix: 'pulsar-auth',
+      },
+    });
+
     // Stack outputs
     new cdk.CfnOutput(this, 'BucketName', {
       value: siteBucket.bucketName,
@@ -88,6 +155,21 @@ export class PulsarStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'SiteUrl', {
       value: `https://${config.domainName}`,
       description: 'Website URL',
+    });
+
+    new cdk.CfnOutput(this, 'UserPoolId', {
+      value: userPool.userPoolId,
+      description: 'Cognito User Pool ID',
+    });
+
+    new cdk.CfnOutput(this, 'UserPoolClientId', {
+      value: userPoolClient.userPoolClientId,
+      description: 'Cognito User Pool Client ID',
+    });
+
+    new cdk.CfnOutput(this, 'CognitoDomain', {
+      value: `${userPoolDomain.domainName}.auth.${config.region}.amazoncognito.com`,
+      description: 'Cognito Hosted UI domain',
     });
   }
 }

@@ -3,7 +3,29 @@
 ## Current Sprint: Core Interactivity
 
 ### Active Task
-**None** - Phase 6 (Backend Integration) begun!
+**None** - Phase 6 (Backend Integration) ongoing!
+
+#### PRP-22: Cognito Authentication (Admin-Only)
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-22-cognito-auth.md`
+- PRP: `PRPs/prp-22-cognito-auth.md`
+- Completed: 2025-12-27
+
+**What was done:**
+- Added Cognito User Pool to CDK stack (self-registration disabled)
+- Added App Client with Hosted UI OAuth flow
+- Added Cognito Domain: `pulsar-auth.auth.us-east-1.amazoncognito.com`
+- Created `scripts/create-admin.sh` for admin user provisioning
+- Created auth utilities (login/logout URLs, token handling)
+- Created authStore.js (Zustand) for auth state management
+- Created AuthPanel.jsx component (Sign In/Out in top-right)
+- Integrated OAuth callback handling in App.jsx
+- Admin user created and tested
+
+**Stack Outputs:**
+- User Pool ID: `us-east-1_pLbpih1A2`
+- User Pool Client ID: `74dfjpapo3gt1nhnfslfhgvmqk`
+- Cognito Domain: `pulsar-auth.auth.us-east-1.amazoncognito.com`
 
 #### PRP-21: CDK Foundation & Static Hosting
 - Status: COMPLETE
@@ -345,6 +367,35 @@
 ---
 
 ## Session Notes
+
+### Session 21 - Cognito Authentication
+**Date:** 2025-12-27
+
+**Accomplished:**
+- Generated and executed PRP-22 (Cognito auth)
+- Added Cognito User Pool to CDK stack (self-registration disabled)
+- Added App Client with Hosted UI OAuth flow (authorization code grant)
+- Added Cognito Domain: `pulsar-auth.auth.us-east-1.amazoncognito.com`
+- Created `scripts/create-admin.sh` for admin user provisioning
+- Created `src/config/auth.js` with Cognito configuration
+- Created `src/utils/auth.js` with login/logout URLs, token handling
+- Created `src/stores/authStore.js` (Zustand) for auth state management
+- Created `src/hooks/useAuthCallback.js` for OAuth callback handling
+- Created `src/components/hud/AuthPanel.jsx` (Sign In/Out in top-right)
+- Integrated auth in App.jsx
+- Created admin user for testing
+- Deployed to production
+
+**Auth Flow:**
+1. Click "Sign In" → Cognito Hosted UI
+2. Login with email/password → Redirect with ?code=
+3. App exchanges code for tokens → Store in localStorage
+4. User info displayed, "Sign Out" visible
+
+**Next Session:**
+- Backend API (INITIAL-23) or other features
+
+---
 
 ### Session 20 - CDK Foundation & Static Hosting
 **Date:** 2025-12-27

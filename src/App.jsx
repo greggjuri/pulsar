@@ -8,8 +8,10 @@ import CameraController from './components/canvas/CameraController';
 import PostProcessing from './components/canvas/PostProcessing';
 import HudOverlay from './components/hud/HudOverlay';
 import ShortcutsPanel from './components/hud/ShortcutsPanel';
+import AuthPanel from './components/hud/AuthPanel';
 import { useGraphStore } from './stores/graphStore';
 import { useAutoSave } from './hooks/useAutoSave';
+import { useAuthCallback } from './hooks/useAuthCallback';
 
 // Wrapper to access store inside Canvas (R3F context)
 const SceneControls = () => {
@@ -71,6 +73,9 @@ function App() {
 
   // Auto-save to localStorage on changes
   useAutoSave();
+
+  // Handle OAuth callback on mount
+  useAuthCallback();
 
   const closeContextMenu = useCallback(() => {
     setContextMenu(null);
@@ -185,6 +190,8 @@ function App() {
         isOpen={showShortcuts}
         onClose={() => setShowShortcuts(false)}
       />
+
+      <AuthPanel />
     </div>
   );
 }

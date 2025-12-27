@@ -410,6 +410,44 @@ Key architecture choices:
 
 ---
 
+## [DECISION-015] Cognito Hosted UI for Admin-Only Auth
+
+**Date:** 2025-12-27
+**Status:** Accepted
+
+**Context:**
+Pulsar needs authentication for cloud features (save/load diagrams) but should remain accessible without login for local editing. This is a personal project, so full public sign-up is not needed.
+
+**Decision:**
+Use AWS Cognito with Hosted UI for authentication:
+- Self-registration disabled (admin-only via CLI script)
+- Hosted UI for login (no custom login form to maintain)
+- Authorization Code Grant flow (SPA-safe, no client secret)
+- Tokens stored in localStorage (acceptable for single-user SPA)
+- Auth is optional - app fully functional without signing in
+
+Key configuration:
+- User Pool: `pulsar-users` with email sign-in
+- Password policy: 8+ chars, upper/lower/digit/symbol
+- No account recovery (admin resets via CLI if needed)
+- Domain prefix: `pulsar-auth`
+
+**Consequences:**
+- Simple, secure auth without building custom forms
+- No cost (Cognito free tier: 50K MAU)
+- Future API calls can use Cognito JWT authorizer
+- Admin user creation requires AWS CLI access
+- No public sign-up prevents spam/abuse
+
+**Alternatives Considered:**
+- Custom login form: More work, security responsibility
+- Amplify Auth: More abstraction, less control
+- Auth0/Firebase: External dependency, potential costs
+- No auth at all: Limits cloud features, less secure
+- Public sign-up: Unnecessary for personal project, abuse risk
+
+---
+
 ## Template for New Decisions
 
 ```
