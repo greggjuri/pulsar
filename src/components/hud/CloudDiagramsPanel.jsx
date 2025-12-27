@@ -80,7 +80,7 @@ export function CloudDiagramsPanel() {
 
   return (
     <>
-      <div className="fixed top-24 left-4 z-40 w-56">
+      <div className="fixed top-28 left-4 z-40 w-56">
         <div className="bg-black/80 border border-cyan-500/30">
           {/* Header */}
           <div className="px-3 py-2 border-b border-cyan-500/20">

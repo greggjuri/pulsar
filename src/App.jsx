@@ -8,10 +8,8 @@ import CameraController from './components/canvas/CameraController';
 import PostProcessing from './components/canvas/PostProcessing';
 import HudOverlay from './components/hud/HudOverlay';
 import ShortcutsPanel from './components/hud/ShortcutsPanel';
-import AuthPanel from './components/hud/AuthPanel';
+import { HeaderBar } from './components/hud/HeaderBar';
 import { CloudDiagramsPanel } from './components/hud/CloudDiagramsPanel';
-import { SaveCloudButton } from './components/hud/SaveCloudButton';
-import { DiagramNameEditor } from './components/hud/DiagramNameEditor';
 import { useGraphStore } from './stores/graphStore';
 import { useAutoSave } from './hooks/useAutoSave';
 import { useAuthCallback } from './hooks/useAuthCallback';
@@ -198,10 +196,8 @@ function App() {
         onClose={() => setShowShortcuts(false)}
       />
 
-      <AuthPanel />
-      <DiagramNameEditor />
+      <HeaderBar />
       <CloudDiagramsPanel />
-      <SaveCloudButton />
     </div>
   );
 }
