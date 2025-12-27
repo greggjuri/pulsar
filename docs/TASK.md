@@ -3,7 +3,26 @@
 ## Current Sprint: Core Interactivity
 
 ### Active Task
-**None** - Phase 5 (Polish) progressing!
+**None** - Phase 6 (Backend Integration) begun!
+
+#### PRP-21: CDK Foundation & Static Hosting
+- Status: COMPLETE
+- INITIAL: `INITIAL/initial-21-cdk-static-hosting.md`
+- PRP: `PRPs/prp-21-cdk-static-hosting.md`
+- Completed: 2025-12-27
+
+**What was done:**
+- Initialized AWS CDK v2 project in `infra/` directory
+- Created S3 bucket `pulsar-static-490004610151` with private access
+- Created CloudFront distribution with OAC, SSL, SPA routing
+- Created Route53 A record for `pulsar.jurigregg.com`
+- Created `scripts/deploy.sh` for build + deploy workflow
+- Site live at https://pulsar.jurigregg.com
+
+**Stack Outputs:**
+- Bucket: `pulsar-static-490004610151`
+- Distribution ID: `E369M4FMRRDJ3U`
+- Site URL: `https://pulsar.jurigregg.com`
 
 #### PRP-20: AWS-Aligned Node Color Presets
 - Status: COMPLETE
@@ -326,6 +345,33 @@
 ---
 
 ## Session Notes
+
+### Session 20 - CDK Foundation & Static Hosting
+**Date:** 2025-12-27
+
+**Accomplished:**
+- Cleaned up unused AWS icons (reduced from 1875 files/24MB to 24 files/856KB)
+- Deleted Category-Icons, Architecture-Group-Icons, Resource-Icons folders
+- Deleted 16 unused service category folders
+- Deleted unused size folders (16/, 32/, 48/)
+- Generated and executed PRP-21 (CDK static hosting)
+- Initialized AWS CDK v2 TypeScript project in `infra/` directory
+- Created S3 bucket with private access + CloudFront OAC
+- Created CloudFront distribution with SSL, HTTPS redirect, SPA routing
+- Created Route53 A record alias for pulsar.jurigregg.com
+- Created `scripts/deploy.sh` for streamlined deployments
+- Site live at https://pulsar.jurigregg.com
+- Phase 6 (Backend Integration) has begun!
+
+**Stack Outputs:**
+- Bucket: `pulsar-static-490004610151`
+- Distribution ID: `E369M4FMRRDJ3U`
+- Site URL: `https://pulsar.jurigregg.com`
+
+**Next Session:**
+- Additional infrastructure or features
+
+---
 
 ### Session 19 - AWS-Aligned Color Presets
 **Date:** 2025-12-27

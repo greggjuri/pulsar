@@ -50,8 +50,9 @@ vite.config.ts.timestamp-*
 coverage/
 .nyc_output/
 
-# AWS CDK (for later)
+# AWS CDK
 infra/cdk.out/
+infra/node_modules/
 infra/*.js
 infra/*.d.ts
 !infra/jest.config.js

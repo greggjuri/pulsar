@@ -372,6 +372,44 @@ Key requirements discovered through testing:
 
 ---
 
+## [DECISION-014] CDK v2 for Infrastructure as Code
+
+**Date:** 2025-12-27
+**Status:** Accepted
+
+**Context:**
+With the transition to Phase 6 (Backend Integration), we needed to establish infrastructure for hosting the Pulsar frontend. Options included manual AWS console setup, CloudFormation templates, CDK v1, CDK v2, Terraform, or Pulumi.
+
+**Decision:**
+Use AWS CDK v2 with TypeScript for all infrastructure:
+- S3 bucket with private access (no public hosting)
+- CloudFront distribution with Origin Access Control (OAC)
+- Route53 A record pointing to CloudFront
+- SSL via existing ACM certificate
+
+Key architecture choices:
+- OAC over OAI (Origin Access Identity) - newer, recommended approach
+- RETAIN removal policy on S3 bucket to prevent accidental deletion
+- SPA routing via CloudFront error responses (403/404 → /index.html)
+- Separate deploy script for build + CDK deploy + S3 sync + cache invalidation
+
+**Consequences:**
+- Infrastructure is version-controlled and repeatable
+- Easy to extend with API Gateway, Lambda, DynamoDB later
+- TypeScript provides type safety and IDE autocomplete
+- Requires `cdk bootstrap` once per account/region
+- Cost: ~$0.50/month for Route53 queries, CloudFront/S3 in free tier
+
+**Alternatives Considered:**
+- Manual AWS Console: Not repeatable, error-prone
+- CloudFormation YAML: Verbose, no type safety
+- CDK v1: Deprecated, v2 is current standard
+- Terraform: Good but team more familiar with CDK
+- Serverless Framework: Better for Lambda-focused apps
+- Amplify Hosting: Less control, vendor lock-in
+
+---
+
 ## Template for New Decisions
 
 ```
