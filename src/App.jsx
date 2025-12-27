@@ -9,9 +9,9 @@ import PostProcessing from './components/canvas/PostProcessing';
 import HudOverlay from './components/hud/HudOverlay';
 import ShortcutsPanel from './components/hud/ShortcutsPanel';
 import AuthPanel from './components/hud/AuthPanel';
-import { ModeIndicator } from './components/hud/ModeIndicator';
 import { CloudDiagramsPanel } from './components/hud/CloudDiagramsPanel';
 import { SaveCloudButton } from './components/hud/SaveCloudButton';
+import { DiagramNameEditor } from './components/hud/DiagramNameEditor';
 import { useGraphStore } from './stores/graphStore';
 import { useAutoSave } from './hooks/useAutoSave';
 import { useAuthCallback } from './hooks/useAuthCallback';
@@ -199,7 +199,7 @@ function App() {
       />
 
       <AuthPanel />
-      <ModeIndicator />
+      <DiagramNameEditor />
       <CloudDiagramsPanel />
       <SaveCloudButton />
     </div>

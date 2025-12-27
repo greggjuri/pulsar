@@ -38,7 +38,7 @@ export function SaveCloudButton() {
                 : 'border-cyan-500/30 text-cyan-500 hover:bg-cyan-500/10'
           }`}
       >
-        {isLoading ? '&#9729; Saving...' : '&#9729; SAVE TO CLOUD'}
+        {isLoading ? 'SAVING...' : 'SAVE'}
       </button>
       {hasUnsavedChanges && !isLoading && (
         <div className="mt-1 font-mono text-[10px] text-yellow-400/70 text-center">
