@@ -3,19 +3,25 @@ const { listDiagrams } = require('./handlers/listDiagrams');
 const { getDiagram } = require('./handlers/getDiagram');
 const { updateDiagram } = require('./handlers/updateDiagram');
 const { deleteDiagram } = require('./handlers/deleteDiagram');
+const { getPublicDiagram } = require('./handlers/getPublicDiagram');
 const { errorResponse } = require('./utils/response');
 
 exports.handler = async (event) => {
   const { routeKey, pathParameters, requestContext } = event;
 
-  // Extract userId from JWT claims (set by API Gateway authorizer)
-  const userId = requestContext.authorizer?.jwt?.claims?.sub;
-
-  if (!userId) {
-    return errorResponse(401, 'Unauthorized');
-  }
-
   try {
+    // Handle public route (no authentication required)
+    if (routeKey === 'GET /public/{id}') {
+      return await getPublicDiagram(event, pathParameters.id);
+    }
+
+    // All other routes require authentication
+    const userId = requestContext.authorizer?.jwt?.claims?.sub;
+
+    if (!userId) {
+      return errorResponse(401, 'Unauthorized');
+    }
+
     switch (routeKey) {
       case 'POST /diagrams':
         return await createDiagram(event, userId);

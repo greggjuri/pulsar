@@ -78,4 +78,20 @@ export const diagramsApi = {
       method: 'DELETE',
     });
   },
+
+  // Get public diagram (no authentication required)
+  async getPublic(id) {
+    const response = await fetch(`${API_URL}/public/${id}`);
+
+    if (response.status === 404) {
+      throw new Error('Diagram not found or not public');
+    }
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.error || `API error: ${response.status}`);
+    }
+
+    return response.json();
+  },
 };

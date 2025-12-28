@@ -3,6 +3,7 @@ import { useAuthStore } from '../../stores/authStore';
 import { useCloudStore } from '../../stores/cloudStore';
 import { useGraphStore } from '../../stores/graphStore';
 import { ConfirmDialog } from './ConfirmDialog';
+import { ShareModal } from './ShareModal';
 
 export function CloudDiagramsPanel() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -19,6 +20,7 @@ export function CloudDiagramsPanel() {
 
   const [confirmLoad, setConfirmLoad] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(null);
+  const [shareModal, setShareModal] = useState(null);
   const [hoveredId, setHoveredId] = useState(null);
 
   // Fetch diagrams on mount and when authenticated
@@ -57,6 +59,11 @@ export function CloudDiagramsPanel() {
   const handleDeleteClick = (diagram, e) => {
     e.stopPropagation();
     setConfirmDelete(diagram);
+  };
+
+  const handleShareClick = (diagram, e) => {
+    e.stopPropagation();
+    setShareModal(diagram);
   };
 
   const handleConfirmDelete = async () => {
@@ -116,9 +123,14 @@ export function CloudDiagramsPanel() {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1 min-w-0">
-                    <div className="font-mono text-sm text-cyan-300 truncate">
+                    <div className="font-mono text-sm text-cyan-300 truncate flex items-center gap-1">
                       {currentCloudId === diagram.id ? '> ' : '  '}
                       {diagram.name}
+                      {diagram.isPublic && (
+                        <span className="text-[10px] text-green-400" title="Public">
+                          &#128279;
+                        </span>
+                      )}
                     </div>
                     <div className="font-mono text-[10px] text-gray-500">
                       {diagram.nodeCount} nodes &middot; {diagram.edgeCount}{' '}
@@ -127,13 +139,22 @@ export function CloudDiagramsPanel() {
                   </div>
 
                   {hoveredId === diagram.id && (
-                    <button
-                      onClick={(e) => handleDeleteClick(diagram, e)}
-                      className="ml-2 p-1 text-gray-500 hover:text-red-400 transition-colors"
-                      title="Delete diagram"
-                    >
-                      &#128465;
-                    </button>
+                    <div className="flex items-center">
+                      <button
+                        onClick={(e) => handleShareClick(diagram, e)}
+                        className="p-1 text-gray-500 hover:text-cyan-400 transition-colors"
+                        title="Share diagram"
+                      >
+                        &#128279;
+                      </button>
+                      <button
+                        onClick={(e) => handleDeleteClick(diagram, e)}
+                        className="p-1 text-gray-500 hover:text-red-400 transition-colors"
+                        title="Delete diagram"
+                      >
+                        &#128465;
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>
@@ -164,6 +185,14 @@ export function CloudDiagramsPanel() {
           variant="danger"
           onConfirm={handleConfirmDelete}
           onCancel={() => setConfirmDelete(null)}
+        />
+      )}
+
+      {/* Share Modal */}
+      {shareModal && (
+        <ShareModal
+          diagram={shareModal}
+          onClose={() => setShareModal(null)}
         />
       )}
     </>

@@ -158,6 +158,13 @@ export class PulsarStack extends cdk.Stack {
       },
     });
 
+    // GSI to lookup diagrams by ID (for public sharing)
+    diagramsTable.addGlobalSecondaryIndex({
+      indexName: 'DiagramIdIndex',
+      partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
+      projectionType: dynamodb.ProjectionType.ALL,
+    });
+
     // S3 bucket for diagram content
     const diagramsBucket = new s3.Bucket(this, 'DiagramsBucket', {
       bucketName: `pulsar-diagrams-${this.account}`,
@@ -243,6 +250,14 @@ export class PulsarStack extends cdk.Stack {
       ],
       integration: lambdaIntegration,
       authorizer,
+    });
+
+    // Public route (no authorization required)
+    httpApi.addRoutes({
+      path: '/public/{id}',
+      methods: [apigatewayv2.HttpMethod.GET],
+      integration: lambdaIntegration,
+      // No authorizer - public access
     });
 
     // Stack outputs

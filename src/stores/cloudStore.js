@@ -86,6 +86,24 @@ export const useCloudStore = create((set, get) => ({
     }
   },
 
+  // Update diagram public status
+  updateDiagramPublic: async (id, isPublic) => {
+    set({ isLoading: true, error: null });
+    try {
+      await diagramsApi.update(id, { isPublic });
+
+      // Update local diagram list
+      const diagrams = get().diagrams.map((d) =>
+        d.id === id ? { ...d, isPublic } : d
+      );
+      set({ diagrams, isLoading: false });
+      return true;
+    } catch (error) {
+      set({ error: error.message, isLoading: false });
+      return false;
+    }
+  },
+
   // Clear cloud state (on logout)
   clear: () =>
     set({
