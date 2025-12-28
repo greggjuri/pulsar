@@ -1,203 +1,217 @@
-# ✨ PULSAR
+# Pulsar ✨
 
-### 3D AWS Architecture Visualizer
+A 3D AWS architecture visualization tool with a sci-fi holographic aesthetic.
 
-<p align="center">
-  <img src="docs/screenshot.png" alt="Pulsar Screenshot" width="800">
-</p>
+**Live:** [pulsar.jurigregg.com](https://pulsar.jurigregg.com)
 
-> Transform your AWS architecture diagrams into stunning, interactive 3D visualizations with a sci-fi holographic aesthetic.
+![Pulsar Screenshot](docs/screenshot.png)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-cyan.svg)](https://opensource.org/licenses/MIT)
+## What is Pulsar?
 
----
+Pulsar transforms boring cloud architecture diagrams into interactive, visually stunning 3D visualizations. Think Minority Report meets AWS documentation.
 
-## 🎯 What is Pulsar?
+- 🎮 **Interactive 3D Canvas** — Rotate, zoom, and explore your architecture
+- ✨ **Sci-Fi Aesthetic** — Glowing nodes, particle effects, bloom post-processing
+- ☁️ **Cloud Sync** — Save diagrams to AWS, access from anywhere
+- 🔗 **Public Sharing** — Share read-only links with anyone
+- 🏷️ **AWS Service Icons** — Official icons for 24+ AWS services
 
-Pulsar is a web-based tool for creating and visualizing AWS architecture diagrams in 3D. Inspired by sci-fi interfaces like Iron Man's JARVIS and Minority Report, it transforms traditional network diagrams into immersive, glowing visualizations.
+## Features
 
-**Perfect for:**
-- Architecture documentation
-- Technical presentations
-- System design discussions
-- Making your diagrams actually enjoyable to look at
-
-## ✨ Features
-
-### Visual
-- 🔮 **Bloom post-processing** — Authentic sci-fi glow effects
-- 🌐 **Animated data flows** — Particles flowing along connections
-- 🎨 **Node color customization** — Pick from preset colors or customize
-- 🏷️ **AWS service labels** — 25+ AWS services with floating labels
-
-### Interaction
-- 🖱️ **Click to select** — Nodes and edges
-- ✋ **Drag to move** — Reposition nodes with collision detection
-- 🎥 **Orbit camera** — Rotate, zoom, and pan
-- 📋 **Context menus** — Right-click for actions
-
-### Data Management
-- 💾 **Auto-save** — Changes saved to localStorage automatically
-- 📤 **JSON export/import** — Share diagrams as files
-- 🆕 **Create from scratch** — Start fresh with the New button
+### Visualization
+- 3D node rendering with glow effects and orbital rings
+- Animated particle data flows along edges
+- Bloom post-processing for that holographic look
+- AWS service icons displayed above nodes
+- Color-coded by AWS category (compute, storage, database, etc.)
 
 ### Editing
-- ➕ **Add nodes** — Create new services
-- 🔗 **Connect nodes** — Draw edges between services
-- ✏️ **Edit properties** — Change labels, colors, service types
-- 🗑️ **Delete** — Remove nodes and edges
+- Add/delete nodes and edges
+- Drag nodes to reposition
+- Edit labels and colors
+- Right-click context menu for connections
+- Keyboard shortcuts (`?` to view all)
 
-## 🚀 Getting Started
+### Data Management
+- Auto-save to localStorage (offline)
+- Cloud save/load (authenticated)
+- JSON export/import
+- Public sharing via links
+
+## Tech Stack
+
+### Frontend
+| Technology | Purpose |
+|------------|---------|
+| React 18 | UI framework |
+| Three.js | 3D rendering |
+| @react-three/fiber | React renderer for Three.js |
+| @react-three/drei | Useful helpers |
+| @react-three/postprocessing | Bloom effects |
+| Zustand | State management |
+| Tailwind CSS v4 | Styling |
+| Vite | Build tool |
+
+### Backend (AWS)
+| Service | Purpose |
+|---------|---------|
+| S3 | Static hosting + diagram storage |
+| CloudFront | CDN with SSL |
+| Route53 | DNS |
+| API Gateway | HTTP API |
+| Lambda | Serverless handlers |
+| DynamoDB | Diagram metadata |
+| Cognito | Authentication |
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         Route53                                 │
+│                   pulsar.jurigregg.com                          │
+└────────────────────────────┬────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                       CloudFront                                │
+│                      (CDN + SSL)                                │
+└──────────────────┬─────────────────────┬────────────────────────┘
+                   │                     │
+                   ▼                     ▼
+┌──────────────────────────┐   ┌──────────────────────────────────┐
+│      S3 (Static)         │   │        API Gateway               │
+│    React App Build       │   │    /diagrams, /public/{id}       │
+└──────────────────────────┘   └───────────────┬──────────────────┘
+                                               │
+                                               ▼
+                               ┌───────────────────────────────────┐
+                               │           Lambda                  │
+                               │        CRUD Handlers              │
+                               └───────────────┬───────────────────┘
+                                               │
+                          ┌────────────────────┼────────────────────┐
+                          │                    │                    │
+                          ▼                    ▼                    ▼
+               ┌──────────────────┐ ┌──────────────────┐ ┌──────────────────┐
+               │    DynamoDB      │ │   S3 (Data)      │ │    Cognito       │
+               │    Metadata      │ │ Diagram Content  │ │  Authentication  │
+               └──────────────────┘ └──────────────────┘ └──────────────────┘
+```
+
+## Getting Started
 
 ### Prerequisites
+- Node.js 18+
+- AWS CLI configured
+- AWS CDK bootstrapped in your account
 
-- Node.js 18+ 
-- npm or yarn
-
-### Installation
+### Local Development
 
 ```bash
-# Clone the repository
-git clone https://github.com/greggjuri/pulsar.git
+# Clone the repo
+git clone https://github.com/yourusername/pulsar.git
 cd pulsar
 
 # Install dependencies
 npm install
 
-# Start development server
+# Start dev server
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+Open [http://localhost:5173](http://localhost:5173)
 
-### Build for Production
+### Deploy to AWS
 
 ```bash
-npm run build
-npm run preview  # Preview the build locally
+# First time: Bootstrap CDK
+cd infra
+npx cdk bootstrap aws://YOUR_ACCOUNT_ID/us-east-1
+
+# Deploy everything
+cd ..
+./scripts/deploy.sh
 ```
 
-## 🎮 Usage
+### Create Admin User
 
-### Keyboard Shortcuts
+```bash
+./scripts/create-admin.sh
+```
 
-Press `?` to see all shortcuts, or reference this table:
-
-| Key | Action |
-|-----|--------|
-| `?` | Toggle shortcuts panel |
-| `F` | Fit camera to view all nodes |
-| `R` / `Home` | Reset camera position |
-| `DEL` / `Backspace` | Delete selected node or edge |
-| `ESC` | Deselect / Cancel action |
-
-### Mouse Controls
-
-| Action | Control |
-|--------|---------|
-| Rotate camera | Click + drag on background |
-| Zoom | Scroll wheel |
-| Select node/edge | Click |
-| Move node | Drag selected node |
-| Context menu | Right-click node |
-
-### Creating a Diagram
-
-1. Click **+ NODE** to add a new node
-2. Select the node and choose an AWS service type from the dropdown
-3. Right-click a node and select "Connect to..." to create edges
-4. Drag nodes to arrange your architecture
-5. Use **↓ EXPORT** to save your diagram as JSON
-
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|-------|------------|
-| **Framework** | React 18 |
-| **Build** | Vite |
-| **3D Rendering** | Three.js via @react-three/fiber |
-| **3D Helpers** | @react-three/drei |
-| **Post-processing** | @react-three/postprocessing |
-| **State** | Zustand |
-| **Styling** | Tailwind CSS v4 |
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 pulsar/
 ├── src/
 │   ├── components/
-│   │   ├── canvas/      # 3D components (Node3D, Edge3D, etc.)
-│   │   └── hud/         # UI overlay components
-│   ├── data/            # Configuration (AWS services, shortcuts)
-│   ├── hooks/           # Custom React hooks
-│   ├── stores/          # Zustand stores
-│   └── utils/           # Utility functions
-├── docs/                # Documentation
-├── INITIAL/             # Feature specifications
-└── PRPs/                # Project Requirement Plans
+│   │   ├── canvas/        # 3D scene components
+│   │   └── hud/           # 2D overlay components
+│   ├── stores/            # Zustand state stores
+│   ├── hooks/             # Custom React hooks
+│   ├── utils/             # Helpers and utilities
+│   └── config/            # Configuration
+├── lambda/
+│   └── api/               # Lambda function code
+├── infra/
+│   └── lib/               # CDK stack definition
+├── scripts/               # Deployment scripts
+├── INITIAL/               # Feature specifications
+├── PRPs/                  # Implementation plans
+└── docs/                  # Documentation
 ```
 
-## 🎨 Design System
+## Keyboard Shortcuts
 
-### Colors
+| Key | Action |
+|-----|--------|
+| `?` | Show shortcuts panel |
+| `F` | Fit camera to nodes |
+| `R` / `Home` | Reset camera |
+| `Delete` | Delete selected node/edge |
+| `Escape` | Clear selection |
+| `L` | Toggle labels |
+| `I` | Toggle icons |
 
-| Purpose | Color | Hex |
-|---------|-------|-----|
-| Primary accent | Cyan | `#00ffff` |
-| Secondary | Magenta | `#ff4f8b` |
-| AWS Orange | Orange | `#ff9900` |
-| Background | Dark blue | `#0a0a0f` |
+## Cost
 
-### AWS Services Supported
+Pulsar runs almost entirely on AWS Free Tier:
 
-**Compute:** Lambda, EC2, ECS, Fargate  
-**Storage:** S3, EFS, EBS  
-**Database:** DynamoDB, RDS, Aurora, ElastiCache  
-**Networking:** API Gateway, CloudFront, Route 53, VPC, ALB/ELB  
-**Integration:** SQS, SNS, EventBridge, Step Functions  
-**Security:** Cognito, IAM, WAF  
-**Other:** CloudWatch, Generic
+| Service | Monthly Cost |
+|---------|--------------|
+| S3 | $0.00 |
+| CloudFront | $0.00 |
+| Lambda | $0.00 |
+| DynamoDB | $0.00 |
+| API Gateway | $0.00 |
+| Cognito | $0.00 |
+| Route53 | ~$0.50 |
+| **Total** | **~$0.50/month** |
 
-## 🗺️ Roadmap
+## Development Workflow
 
-### Completed ✅
-- [x] 3D node rendering with glow effects
-- [x] Animated edge particles
-- [x] Node selection, dragging, deletion
-- [x] Edge creation and management
-- [x] JSON export/import
-- [x] localStorage persistence
-- [x] Camera controls (fit, reset)
-- [x] Bloom post-processing
-- [x] AWS service type dropdown
-- [x] Keyboard shortcuts panel
+This project uses a structured planning/implementation workflow:
 
-### Planned 🔜
-- [ ] AWS service icons on nodes
-- [ ] Multiple layout algorithms
-- [ ] Cloud sync (AWS backend)
-- [ ] User authentication
-- [ ] Shareable diagram links
-- [ ] Import from CloudFormation/CDK
+1. **INITIAL specs** — Feature requirements (in `INITIAL/`)
+2. **PRPs** — Detailed implementation plans (in `PRPs/`)
+3. **Execution** — Step-by-step implementation
 
-## 🤝 Contributing
+See [WORKFLOW.md](WORKFLOW.md) for details.
 
-Contributions are welcome! Please read our contributing guidelines (coming soon).
+## Documentation
 
-## 📄 License
+- [PLANNING.md](PLANNING.md) — Architecture overview and roadmap
+- [DECISIONS.md](DECISIONS.md) — Architectural decision log
+- [TASK.md](TASK.md) — Development session history
+- [WORKFLOW.md](WORKFLOW.md) — Development process guide
 
-MIT License — see [LICENSE](LICENSE) for details.
+## Acknowledgments
 
-## 🙏 Acknowledgments
-
-- Three.js team for the incredible 3D library
-- React Three Fiber for the React integration
-- AWS for the architecture icon inspiration
-- Sci-fi movies for the aesthetic inspiration
+- [AWS Architecture Icons](https://aws.amazon.com/architecture/icons/) — Official service icons
+- [React Three Fiber](https://docs.pmnd.rs/react-three-fiber) — React renderer for Three.js
+- Aesthetic inspiration: Minority Report, Iron Man's JARVIS, Tron
 
 ---
 
-<p align="center">
-  <strong>Built with 💜 and lots of ☕</strong>
-</p>
+Built with ☕ and Claude
+
